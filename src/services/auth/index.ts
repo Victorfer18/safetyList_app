@@ -27,7 +27,6 @@ export const SignIn = async (email: string, password: string) => {
 export const SignOut = () => {
   return new Promise((resolve) => {
     setTimeout(async () => {
-      // EXPIROU TOKEN NA API
       await AsyncStorage.removeItem("@token");
       resolve(null);
     }, 1000);
