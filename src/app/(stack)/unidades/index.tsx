@@ -24,7 +24,7 @@ const DropdownComponent = () => {
   const selectedItem = data.find(item => item.value === value);
   const labelText = selectedItem ? selectedItem.label : "Unidades";
   const renderLabel = () => {
-    if (value || isFocus) {
+    {
       return (
         <Text style={[styles.label, isFocus && { color: 'blue' }]}>
           {labelText}
@@ -41,10 +41,10 @@ const DropdownComponent = () => {
         // Por exemplo:
         switch (selectedItem.value) {
           case '1':
-            console.log({labelText});
+            console.log({ labelText });
             break;
           case '2':
-            console.log({labelText});
+            console.log({ labelText });
             break;
           // ... adicione mais casos conforme necessário
           default:
@@ -53,7 +53,7 @@ const DropdownComponent = () => {
       }
     }
   };
-  
+
 
   return (
     <View style={styles.container}>
@@ -66,7 +66,7 @@ const DropdownComponent = () => {
         inputSearchStyle={styles.inputSearchStyle}
         iconStyle={styles.iconStyle}
         data={data}
-        search
+
         maxHeight={300}
         labelField="label"
         valueField="value"

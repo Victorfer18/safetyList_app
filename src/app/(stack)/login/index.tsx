@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Image, ImageBackground, StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 
-const image = '../assets/images/login/background.png';
-const logoImage1 = '../assets/images/logo/safety-list.png';
-const logoImage2 = '../assets/images/logo/safety-2u.png';
+const image = 'assets/images/login/background.png';
+const logoImage1 = 'assets/images/logo/safety-list.png';
+const logoImage2 = 'assets/images/logo/safety-2u.png';
 
 
 const App = () => {
@@ -31,7 +31,7 @@ const App = () => {
                         onChangeText={setPassword}
                         value={password}
                         placeholder="Senha"
-                        secureTextEntry={true} 
+                        secureTextEntry={true}
                         placeholderTextColor="#aaa"
                     />
                     <TouchableOpacity style={styles.customButton} onPress={() => {
@@ -70,10 +70,10 @@ const styles = StyleSheet.create({
     },
     poweredByContainer: {
         flexDirection: 'row',
-        marginBottom: 20,  
+        marginBottom: 20,
     },
     poweredByText: {
-        marginRight: 5, 
+        marginRight: 5,
     },
     logo1: {
         width: '90%',
@@ -101,14 +101,14 @@ const styles = StyleSheet.create({
     },
 
     customButton: {
-        marginTop: 20, 
-        backgroundColor: '#be1622', 
+        marginTop: 20,
+        backgroundColor: '#be1622',
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 20,
         alignItems: 'center',
         justifyContent: 'center',
-        width: '100%', 
+        width: '100%',
     },
     buttonText: {
         color: 'white',
