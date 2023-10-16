@@ -1,17 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, TextInput, Image } from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import Card from "@/components/Card";
 import Button from 'components/Button'
-import { Link } from "expo-router";
+import { useLocalSearchParams, useGlobalSearchParams, Link } from 'expo-router';
 
 
-const App = () => {
+const App = ({ ...params }: any) => {
+  const local = useLocalSearchParams();
+
+  const [photoUri, setPhotoUri] = useState(null);
   const [selectedRadio, setSelectedRadio] = useState(1)
   const [inputValue1, setInputValue1] = useState('');
   const [inputValue2, setInputValue2] = useState('');
   const defaultImage = require('assets/images/tarefa/default.jpg');
+  useEffect(() => {
+    setPhotoUri(local?.photoUri);
+  }, [photoUri]);
+
   return (
     <ScrollView>
       <Text style={styles.tituloPage}>
@@ -23,12 +30,11 @@ const App = () => {
           1 - Manutenção de Registro
         </Text>
         <View>
-          <Image source={(defaultImage)} style={styles.imgDefault} />
-         
-            <Button texto='Foto' href='/(stack)/tarefa/camera' cor='#05f' line={16} width={120} marginTop={-70} marginLeft={16} >
-              <AntDesign name="clouduploado" size={24} color="white" />
-              
-            </Button>
+          <Image source={photoUri ? { uri: photoUri } : defaultImage} alt={photoUri || ''} style={styles.imgDefault} />
+          <Button texto='Foto' href='/(stack)/tarefa/camera' cor='#05f' line={16} width={120} marginTop={-70} marginLeft={16} >
+            <AntDesign name="clouduploado" size={24} color="white" />
+
+          </Button>
 
         </View>
         <View style={styles.btnArea}>

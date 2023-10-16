@@ -5,8 +5,9 @@ import { Camera } from 'expo-camera';
 import { shareAsync } from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
 import { FontAwesome } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
-export default function Tarefa() {
+export default function camera() {
   let cameraRef = useRef();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
@@ -47,6 +48,8 @@ export default function Tarefa() {
 
     let savePhoto = () => {
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
+        router.push({ pathname: '/(stack)/tarefa/', params: { photoUri: photo.uri } });
+        //router.replace('/(stack)/tarefa/', { photoUri: photo.uri });
         setPhoto(undefined);
       });
     };
@@ -56,7 +59,7 @@ export default function Tarefa() {
         <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
         <Button title="Share" onPress={sharePic} />
         {hasMediaLibraryPermission ? <Button title="Save" onPress={savePhoto} /> : undefined}
-        
+
         <Button title="Discard" onPress={() => setPhoto(undefined)} />
       </SafeAreaView>
     );
