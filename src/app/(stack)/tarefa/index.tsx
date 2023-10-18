@@ -5,6 +5,7 @@ import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import Card from "@/components/Card";
 import Button from 'components/Button'
 import { useLocalSearchParams, useGlobalSearchParams, Link } from 'expo-router';
+import { StatusBar } from "expo-status-bar";
 
 
 const App = ({ ...params }: any) => {
@@ -16,8 +17,10 @@ const App = ({ ...params }: any) => {
   const [inputValue2, setInputValue2] = useState('');
   const defaultImage = require('assets/images/tarefa/default.jpg');
   useEffect(() => {
-    setPhotoUri(local?.photoUri);
-  }, [photoUri]);
+    if (local?.photoUri !== photoUri) {
+      setPhotoUri(local?.photoUri);
+    }
+  }, [local?.photoUri]);
 
   return (
     <ScrollView>
@@ -73,7 +76,7 @@ const App = ({ ...params }: any) => {
               onChangeText={(text) => setInputValue2(text)}
             />
           )}
-
+          <StatusBar style="dark" />
         </View>
         <Button texto=' Salvar Tarefa' cor='#16be2e' line={16} marginTop={0} >
           <AntDesign name="checkcircleo" size={16} color="white" />

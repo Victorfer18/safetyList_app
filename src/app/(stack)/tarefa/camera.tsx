@@ -48,7 +48,7 @@ export default function camera() {
 
     let savePhoto = () => {
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-        router.push({ pathname: '/(stack)/tarefa/', params: { photoUri: photo.uri } });
+        router.replace({ pathname: '/(stack)/tarefa/', params: { photoUri: photo.uri } });
         //router.replace('/(stack)/tarefa/', { photoUri: photo.uri });
         setPhoto(undefined);
       });
@@ -72,7 +72,7 @@ export default function camera() {
           <FontAwesome name="camera" size={40} color="white" />
         </TouchableOpacity>
       </View>
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
     </Camera>
   );
 }
