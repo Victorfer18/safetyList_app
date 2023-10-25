@@ -105,6 +105,16 @@ export const getClientsById = async (clientId: number) => {
 	}
 };
 
+export const validateJwt = async (clientId: number) => {
+	await setAuthToken();
+	try {
+		const response = await axiosInstance.get(`/validate_jwt`);
+		return response.data;
+	} catch (error) {
+		throw new Error('Erro ao obter validar JWT');
+	}
+};
+
 export const login = async (userEmail: string, userPassword: string) => {
 	try {
 		const requestBody = {
