@@ -6,10 +6,12 @@ import Card from "@/components/Card";
 import Button from 'components/Button'
 import { useLocalSearchParams, useGlobalSearchParams, Link } from 'expo-router';
 import { StatusBar } from "expo-status-bar";
-
+import { get_maintenance_type } from 'services/api';
 
 const App = ({ ...params }: any) => {
+
   const local = useLocalSearchParams();
+  const [lista, setLista] = useState([])
 
   const [photoUri, setPhotoUri] = useState(null);
   const [selectedRadio, setSelectedRadio] = useState(1)
@@ -22,66 +24,79 @@ const App = ({ ...params }: any) => {
     }
   }, [local?.photoUri]);
 
+  useEffect(() => {
+    (async () => {
+
+      const res = await get_maintenance_type(local.system_type_id, local.client_id);
+      console.log(res)
+      setLista(res.payload)
+    })()
+  }, []);
+
+
   return (
     <ScrollView>
       <Text style={styles.tituloPage}>
         Tarefa
       </Text>
 
-      <Card>
-        <Text style={styles.tituloCard}>
-          1 - Manutenção de Registro
-        </Text>
-        <View>
-          <Image source={photoUri ? { uri: photoUri } : defaultImage} alt={photoUri || ''} style={styles.imgDefault} />
-          <Button texto='Foto' href='/(stack)/tarefa/camera' cor='#05f' line={16} width={120} marginTop={-70} marginLeft={16} >
-            <AntDesign name="clouduploado" size={24} color="white" />
+      {lista.map((e, i) =>
+        <Card key={i}>
+          <Text style={styles.tituloCard}>
+            {e.maintenance_type_name}
+          </Text>
+          <View>
+            <Image source={photoUri ? { uri: photoUri } : defaultImage} alt={photoUri || ''} style={styles.imgDefault} />
+            <Button texto='Foto' href='/(stack)/tarefa/camera' cor='#05f' line={16} width={120} marginTop={-70} marginLeft={16} >
+              <AntDesign name="clouduploado" size={24} color="white" />
 
-          </Button>
+            </Button>
 
-        </View>
-        <View style={styles.btnArea}>
-          <TouchableOpacity onPress={() => setSelectedRadio(1)}>
-            <View style={styles.wrapper}>
-              <View style={styles.radio}>
-                {selectedRadio == 1 ? <View style={styles.radioBg}></View> : null}
+          </View>
+          <View style={styles.btnArea}>
+            <TouchableOpacity onPress={() => setSelectedRadio(1)}>
+              <View style={styles.wrapper}>
+                <View style={styles.radio}>
+                  {selectedRadio == 1 ? <View style={styles.radioBg}></View> : null}
+                </View>
+                <Text style={styles.radioText}>Consistente</Text>
               </View>
-              <Text style={styles.radioText}>Consistente</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => setSelectedRadio(2)}>
-            <View style={styles.wrapper}>
-              <View style={styles.radio}>
-                {selectedRadio == 2 ? <View style={styles.radioBg}></View> : null}
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setSelectedRadio(2)}>
+              <View style={styles.wrapper}>
+                <View style={styles.radio}>
+                  {selectedRadio == 2 ? <View style={styles.radioBg}></View> : null}
+                </View>
+                <Text style={styles.radioText}>Inconsistente</Text>
               </View>
-              <Text style={styles.radioText}>Inconsistente</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+            </TouchableOpacity>
+          </View>
 
 
 
-        <View style={styles.container}>
-          <TextInput
-            style={styles.input}
-            placeholder="Observações"
-            value={inputValue1}
-            onChangeText={(text) => setInputValue1(text)}
-          />
-          {selectedRadio == 2 && (
+          <View style={styles.container}>
             <TextInput
               style={styles.input}
-              placeholder="Ações a serem tomadas"
-              value={inputValue2}
-              onChangeText={(text) => setInputValue2(text)}
+              placeholder="Observações"
+              value={inputValue1}
+              onChangeText={(text) => setInputValue1(text)}
             />
-          )}
-          <StatusBar style="dark" />
-        </View>
-        <Button texto=' Salvar Tarefa' cor='#16be2e' line={16} marginTop={0} >
-          <AntDesign name="checkcircleo" size={16} color="white" />
-        </Button>
-      </Card>
+            {selectedRadio == 2 && (
+              <TextInput
+                style={styles.input}
+                placeholder="Ações a serem tomadas"
+                value={inputValue2}
+                onChangeText={(text) => setInputValue2(text)}
+              />
+            )}
+            <StatusBar style="dark" />
+          </View>
+          <Button texto=' Salvar Tarefa' cor='#16be2e' line={16} marginTop={0} >
+            <AntDesign name="checkcircleo" size={16} color="white" />
+          </Button>
+        </Card>
+      )}
+
     </ScrollView>
   );
 }

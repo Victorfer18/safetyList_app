@@ -18,8 +18,8 @@ const App = () => {
     useEffect(() => {
         (async () => {
             const token = await AsyncStorage.getItem('userToken');
-            if (token){
-               // router.replace({ pathname: '/(stack)/unidades' });
+            if (token) {
+                // router.replace({ pathname: '/(stack)/unidades' });
             }
         })()
 
