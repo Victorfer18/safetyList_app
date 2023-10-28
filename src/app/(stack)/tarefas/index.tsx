@@ -1,8 +1,8 @@
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from "react-native";
-import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
+import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { AntDesign } from '@expo/vector-icons';
 import { useEffect, useState } from "react";
 import { getInspectableList } from 'services/api';
-import { Link, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import CardTarefas from "@/components/CardTarefas";
 
 import Button from 'components/Button'

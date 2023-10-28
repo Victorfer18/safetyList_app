@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, TextInput, Image, FlatList } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import Card from "@/components/Card";
 import Button from 'components/Button'
-import { useLocalSearchParams, useGlobalSearchParams, Link } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { StatusBar } from "expo-status-bar";
 import { get_maintenance_type } from 'services/api';
 
