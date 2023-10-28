@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, TextInput, Image } from "react-native";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { Text, View, StyleSheet, TextInput, Image, FlatList } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import Card from "@/components/Card";
 import Button from 'components/Button'
@@ -18,6 +18,7 @@ const App = ({ ...params }: any) => {
   const [inputValue1, setInputValue1] = useState('');
   const [inputValue2, setInputValue2] = useState('');
   const defaultImage = require('assets/images/tarefa/default.jpg');
+
   useEffect(() => {
     if (local?.photoUri !== photoUri) {
       setPhotoUri(local?.photoUri);
@@ -26,7 +27,6 @@ const App = ({ ...params }: any) => {
 
   useEffect(() => {
     (async () => {
-
       const res = await get_maintenance_type(local.system_type_id, local.client_id);
       console.log(res)
       setLista(res.payload)
@@ -34,70 +34,69 @@ const App = ({ ...params }: any) => {
   }, []);
 
 
-  return (
-    <ScrollView>
-      <Text style={styles.tituloPage}>
-        Tarefa
+  const renderCard = ({ item, index }) => (
+    <Card key={index}>
+      <Text style={styles.tituloCard}>
+        {item.maintenance_type_name}
       </Text>
-
-      {lista.map((e, i) =>
-        <Card key={i}>
-          <Text style={styles.tituloCard}>
-            {e.maintenance_type_name}
-          </Text>
-          <View>
-            <Image source={photoUri ? { uri: photoUri } : defaultImage} alt={photoUri || ''} style={styles.imgDefault} />
-            <Button texto='Foto' href='/(stack)/tarefa/camera' cor='#05f' line={16} width={120} marginTop={-70} marginLeft={16} >
-              <AntDesign name="clouduploado" size={24} color="white" />
-
-            </Button>
-
+      <View>
+        <Image source={photoUri ? { uri: photoUri } : defaultImage} alt={photoUri || ''} style={styles.imgDefault} />
+        <Button texto='Foto' href='/(stack)/tarefa/camera' cor='#05f' line={16} width={120} marginTop={-70} marginLeft={16} >
+          <AntDesign name="clouduploado" size={24} color="white" />
+        </Button>
+      </View>
+      <View style={styles.btnArea}>
+        <TouchableOpacity onPress={() => setSelectedRadio(1)}>
+          <View style={styles.wrapper}>
+            <View style={styles.radio}>
+              {selectedRadio == 1 ? <View style={styles.radioBg}></View> : null}
+            </View>
+            <Text style={styles.radioText}>Consistente</Text>
           </View>
-          <View style={styles.btnArea}>
-            <TouchableOpacity onPress={() => setSelectedRadio(1)}>
-              <View style={styles.wrapper}>
-                <View style={styles.radio}>
-                  {selectedRadio == 1 ? <View style={styles.radioBg}></View> : null}
-                </View>
-                <Text style={styles.radioText}>Consistente</Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => setSelectedRadio(2)}>
-              <View style={styles.wrapper}>
-                <View style={styles.radio}>
-                  {selectedRadio == 2 ? <View style={styles.radioBg}></View> : null}
-                </View>
-                <Text style={styles.radioText}>Inconsistente</Text>
-              </View>
-            </TouchableOpacity>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setSelectedRadio(2)}>
+          <View style={styles.wrapper}>
+            <View style={styles.radio}>
+              {selectedRadio == 2 ? <View style={styles.radioBg}></View> : null}
+            </View>
+            <Text style={styles.radioText}>Inconsistente</Text>
           </View>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.container}>
+        <TextInput
+          style={styles.input}
+          placeholder="Observações"
+          value={inputValue1}
+          onChangeText={(text) => setInputValue1(text)}
+        />
+        {selectedRadio == 2 && (
+          <TextInput
+            style={styles.input}
+            placeholder="Ações a serem tomadas"
+            value={inputValue2}
+            onChangeText={(text) => setInputValue2(text)}
+          />
+        )}
+        <StatusBar style="dark" />
+      </View>
+      <Button texto=' Salvar Tarefa' cor='#16be2e' line={16} marginTop={0} >
+        <AntDesign name="checkcircleo" size={16} color="white" />
+      </Button>
+    </Card>
+  );
 
-
-
-          <View style={styles.container}>
-            <TextInput
-              style={styles.input}
-              placeholder="Observações"
-              value={inputValue1}
-              onChangeText={(text) => setInputValue1(text)}
-            />
-            {selectedRadio == 2 && (
-              <TextInput
-                style={styles.input}
-                placeholder="Ações a serem tomadas"
-                value={inputValue2}
-                onChangeText={(text) => setInputValue2(text)}
-              />
-            )}
-            <StatusBar style="dark" />
-          </View>
-          <Button texto=' Salvar Tarefa' cor='#16be2e' line={16} marginTop={0} >
-            <AntDesign name="checkcircleo" size={16} color="white" />
-          </Button>
-        </Card>
+  return (
+    <FlatList
+      data={lista}
+      renderItem={renderCard}
+      keyExtractor={(item, index) => index.toString()}
+      ListHeaderComponent={() => (
+        <Text style={styles.tituloPage}>
+          Tarefa
+        </Text>
       )}
-
-    </ScrollView>
+    />
   );
 }
 

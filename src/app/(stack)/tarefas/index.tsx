@@ -3,6 +3,7 @@ import { MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 import { useEffect, useState } from "react";
 import { getInspectableList } from 'services/api';
 import { Link, useLocalSearchParams } from 'expo-router';
+import CardTarefas from "@/components/CardTarefas";
 
 import Button from 'components/Button'
 import { StatusBar } from "expo-status-bar";
@@ -27,29 +28,7 @@ const tarefas = () => {
                 <Text style={style.tituloPage}>
                     Tarefas
                 </Text>
-                <View style={style.grid}>
-                    {lista.map((e, i) => (
-                        <Link href={{
-                            pathname: '/(stack)/tarefa',
-                            params: { system_type_id: e.system_type_id, client_id: e.client_id }
-                        }} asChild key={i}>
-                            <TouchableOpacity style={style.task} >
-
-                                <>
-                                    <View style={style.itemContainer}>
-                                        <Image
-                                            style={style.icone}
-                                            source={{ uri: e.system_type_icon }} />
-                                    </View>
-                                    <Text style={style.taskText}>
-                                        {e.system_type_name}
-                                    </Text>
-                                </>
-
-                            </TouchableOpacity>
-                        </Link>
-                    ))}
-                </View>
+                <CardTarefas style={style} lista={lista} />
                 <View style={style.boxSpace}>
                     <Button texto='Finalizar Tarefas' cor='#16be2e' line={20}>
                         <AntDesign name="checkcircleo" size={16} color="white" />
