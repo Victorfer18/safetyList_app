@@ -121,6 +121,7 @@ export const register_maintenance = async (
 		form.append('consistency_status', consistency_status);
 		form.append('observation', observation);
 		form.append('action', action);
+
 		//form.append('image', imageBlob);
 		//form.append('image', new Blob(imageBlob));
 
