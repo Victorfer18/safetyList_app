@@ -75,13 +75,8 @@ export const saveInspectableIsClosed = async (
 
 async function createBlobFromImageURI(imageUri: any) {
 	try {
-
-		const response = await axios.get(imageUri, { responseType: 'arraybuffer' })
-
-		// const response = await fetch(imageUri);
-
+		const response = await fetch(imageUri);
 		const blob = await response.blob();
-
 		return blob
 	} catch (error) {
 		return null;
