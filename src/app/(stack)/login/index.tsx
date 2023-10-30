@@ -23,7 +23,7 @@ const App = () => {
         (async () => {
             const token = await AsyncStorage.getItem('userToken');
             if (token) {
-                // router.replace({ pathname: '/(stack)/unidades' });
+                router.replace({ pathname: '/(stack)/unidades' });
             }
         })()
 
@@ -35,7 +35,6 @@ const App = () => {
             const response = await login(username, password);
 
             if (response.success && response.payload) {
-                console.log("Login efetuado com sucesso!", response.message);
 
                 await AsyncStorage.setItem('userToken', response.payload);
 
