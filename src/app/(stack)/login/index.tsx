@@ -82,7 +82,7 @@ const App = () => {
                         returnKeyType="done"
                     />
                     <TouchableOpacity style={styles.customButton} onPress={handleLogin}>
-                        <Text style={styles.buttonText}>Entrar</Text>
+                        <Text style={styles.buttonText}>ACESSAR</Text>
                     </TouchableOpacity>
 
                 </View>

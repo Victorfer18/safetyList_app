@@ -3,15 +3,19 @@ import React from 'react';
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import { Link } from 'expo-router';
 import PropTypes from 'prop-types';
+import { useLocalSearchParams } from 'expo-router';
+
 
 const CardTarefas = ({ style, lista }: any) => {
+    const local = useLocalSearchParams();
     return (
+
         <View style={style.grid}>
             {lista.map((e: any, i: any) => (
                 <Link
                     href={{
                         pathname: '/(stack)/tarefa',
-                        params: { system_type_id: e.system_type_id, client_id: e.client_id }
+                        params: { system_type_id: e.system_type_id, client_id: e.client_id, client_parent: e.client_parent, user_id: local.user_id }
                     }}
                     asChild
                     key={i}

@@ -7,7 +7,7 @@ interface CustomInputProps extends TextInputProps {
     onChangeText: (text: string) => void;
     placeholder: string;
     secureTextEntry?: boolean;
-    iconName: string;
+    iconName?: string;
 }
 
 const CustomInput: React.ForwardRefRenderFunction<TextInput, CustomInputProps> = (
@@ -16,7 +16,7 @@ const CustomInput: React.ForwardRefRenderFunction<TextInput, CustomInputProps> =
 ) => {
     return (
         <View style={styles.container}>
-            <FontAwesome name={iconName} size={24} color="black" />
+            <FontAwesome name={iconName || ''} size={24} color="black" />
             <TextInput
                 {...props}
                 ref={ref}

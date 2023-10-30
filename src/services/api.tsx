@@ -1,6 +1,8 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
+
 const getAuthToken = async () => {
 	try {
 		const token = await AsyncStorage.getItem('userToken');
@@ -71,6 +73,66 @@ export const saveInspectableIsClosed = async (
 	}
 };
 
+async function createBlobFromImageURI(imageUri: any) {
+	try {
+
+		const response = await fetch(imageUri);
+
+		const blob = await response.blob();
+		return new File([blob], 'foto.jpg', {
+			type: "image/jpeg",
+
+		});;
+	} catch (error) {
+		console.error('Erro ao criar Blob:', error);
+		return null;
+	}
+}
+
+export const register_maintenance = async (
+	system_type_id: any,
+	maintenance_type_id: any,
+	user_id: any,
+	client_parent: any,
+	consistency_status: any,
+	observation: any,
+	action: any,
+	imageUri: any
+) => {
+	console.log('tafaerel ok', {
+
+		system_type_id,
+		maintenance_type_id,
+		user_id,
+		client_parent,
+		consistency_status,
+		observation,
+		action,
+		imageUri
+	})
+	await setAuthToken();
+	try {
+		const imageBlob = await createBlobFromImageURI(imageUri);
+		const form = new FormData();
+		form.append('system_type_id', system_type_id);
+		form.append('maintenance_type_id', maintenance_type_id);
+		form.append('user_id', user_id);
+		form.append('client_parent', client_parent);
+		form.append('consistency_status', consistency_status);
+		form.append('observation', observation);
+		form.append('action', action);
+		//form.append('image', imageBlob);
+		//form.append('image', new Blob(imageBlob));
+
+		const response = await axiosInstance.post('/inspections/register_maintenance', form);
+		return response.data;
+
+	} catch (error) {
+		console.log(error)
+		throw new Error('Erro ao salvar Tarefa');
+	}
+};
+
 export const alterStatusInspectionById = async (inspectionId: number, status: number) => {
 	await setAuthToken();
 	try {
@@ -118,6 +180,7 @@ export const get_maintenance_type = async (system_type_id: number, client_id: nu
 		throw new Error('Erro ao resgatar pergunta');
 	}
 };
+
 
 
 export const login = async (userEmail: string, userPassword: string) => {

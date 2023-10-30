@@ -38,7 +38,7 @@ const inspections = () => {
                         <Text style={style.paragrafo}>Status: {e.status_inspection_desc}</Text>
                         <Link href={{
                             pathname: '/(stack)/tarefas/',
-                            params: { client_id: e.client_id, inspection_id: e.inspection_id }
+                            params: { client_id: e.client_id, inspection_id: e.inspection_id, client_parent: e.client_parent, user_id: e.user_id }
                         }} asChild>
                             <Button texto='Inspecionar' />
                         </Link>

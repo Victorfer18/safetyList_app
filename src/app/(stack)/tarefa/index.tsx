@@ -4,15 +4,17 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { AntDesign } from '@expo/vector-icons';
 import Card from "@/components/Card";
 import Button from 'components/Button'
-import { useLocalSearchParams } from 'expo-router';
+import { Link, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from "expo-status-bar";
-import { get_maintenance_type } from 'services/api';
+import { get_maintenance_type, register_maintenance } from 'services/api';
+import CustomInput from '@/components/CustomInput';
+import jwt from "@/services/jwt";
+import * as FileSystem from 'expo-file-system';
 
 const App = ({ ...params }: any) => {
 
   const local = useLocalSearchParams();
   const [lista, setLista] = useState([])
-
   const [photoUri, setPhotoUri] = useState(null);
   const [selectedRadio, setSelectedRadio] = useState(1)
   const [inputValue1, setInputValue1] = useState('');
@@ -28,11 +30,25 @@ const App = ({ ...params }: any) => {
   useEffect(() => {
     (async () => {
       const res = await get_maintenance_type(local.system_type_id, local.client_id);
-      console.log(res)
+
       setLista(res.payload)
     })()
   }, []);
 
+  async function saveTarefa(e: any) {
+    const dado = await jwt()
+
+    const res = await register_maintenance(
+      local.system_type_id,
+      e.maintenance_type_id,
+      local.user_id,
+      local.client_parent,
+      selectedRadio == 1,
+      inputValue1,
+      inputValue2,
+      local.photoUri
+    )
+  };
 
   const renderCard = ({ item, index }) => (
     <Card key={index}>
@@ -41,9 +57,15 @@ const App = ({ ...params }: any) => {
       </Text>
       <View>
         <Image source={photoUri ? { uri: photoUri } : defaultImage} alt={photoUri || ''} style={styles.imgDefault} />
-        <Button texto='Foto' href='/(stack)/tarefa/camera' cor='#05f' line={16} width={120} marginTop={-70} marginLeft={16} >
-          <AntDesign name="clouduploado" size={24} color="white" />
-        </Button>
+        <Link href={{
+          pathname: '/(stack)/tarefa/camera',
+          params: { system_type_id: local.system_type_id, client_id: local.client_id, client_parent: local.client_parent, user_id: local.user_id }
+        }} asChild >
+
+          <Button texto='Foto' cor='#05f' line={16} width={120} marginTop={-70} marginLeft={16} >
+            <AntDesign name="clouduploado" size={24} color="white" />
+          </Button>
+        </Link>
       </View>
       <View style={styles.btnArea}>
         <TouchableOpacity onPress={() => setSelectedRadio(1)}>
@@ -64,15 +86,13 @@ const App = ({ ...params }: any) => {
         </TouchableOpacity>
       </View>
       <View style={styles.container}>
-        <TextInput
-          style={styles.input}
+        <CustomInput
           placeholder="Observações"
           value={inputValue1}
           onChangeText={(text) => setInputValue1(text)}
         />
         {selectedRadio == 2 && (
-          <TextInput
-            style={styles.input}
+          <CustomInput
             placeholder="Ações a serem tomadas"
             value={inputValue2}
             onChangeText={(text) => setInputValue2(text)}
@@ -80,7 +100,7 @@ const App = ({ ...params }: any) => {
         )}
         <StatusBar style="dark" />
       </View>
-      <Button texto=' Salvar Tarefa' cor='#16be2e' line={16} marginTop={0} >
+      <Button texto=' Salvar Tarefa' cor='#16be2e' line={16} marginTop={0} onPress={() => saveTarefa(item)}>
         <AntDesign name="checkcircleo" size={16} color="white" />
       </Button>
     </Card>

@@ -2,12 +2,13 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, SafeAreaView, Button, Image, TouchableOpacity } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
 import { Camera } from 'expo-camera';
-import { shareAsync } from 'expo-sharing';
 import * as MediaLibrary from 'expo-media-library';
 import { FontAwesome } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 
 export default function camera() {
+  const local = useLocalSearchParams();
   let cameraRef = useRef();
   const [hasCameraPermission, setHasCameraPermission] = useState();
   const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
@@ -37,27 +38,23 @@ export default function camera() {
 
     let newPhoto = await cameraRef.current.takePictureAsync(options);
     setPhoto(newPhoto);
+
   };
 
   if (photo) {
-    let sharePic = () => {
-      shareAsync(photo.uri).then(() => {
-        setPhoto(undefined);
-      });
-    };
 
     let savePhoto = () => {
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-        router.replace({ pathname: '/(stack)/tarefa/', params: { photoUri: photo.uri } });
+        router.replace({ pathname: '/(stack)/tarefa/', params: { photoUri: photo.uri, system_type_id: local.system_type_id, client_id: local.client_id, client_parent: local.client_parent, user_id: local.user_id } });
         //router.replace('/(stack)/tarefa/', { photoUri: photo.uri });
         setPhoto(undefined);
+        console.log(photo.uri)
       });
     };
 
     return (
       <SafeAreaView style={styles.container}>
         <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
-        <Button title="Share" onPress={sharePic} />
         {hasMediaLibraryPermission ? <Button title="Save" onPress={savePhoto} /> : undefined}
 
         <Button title="Discard" onPress={() => setPhoto(undefined)} />

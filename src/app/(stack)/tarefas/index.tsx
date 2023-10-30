@@ -11,13 +11,12 @@ import { StatusBar } from "expo-status-bar";
 const tarefas = () => {
 
     const local = useLocalSearchParams();
-
     const [lista, setLista] = useState([])
     useEffect(() => {
         (async () => {
 
             const res = await getInspectableList(local.inspection_id, local.client_id);
-            console.log(res)
+
             setLista(res.payload)
         })()
     }, [])
