@@ -85,33 +85,29 @@ export const register_maintenance = async (
 ) => {
 	await setAuthToken();
 	try {
-	const file = await fetch(imageUri);
-	const theBlob = await file.blob();
-	theBlob.lastModifiedDate = new Date();
-	// theBlob.name = "file_name.jpg";
-	// theBlob.type ="image/jpeg"
+		const file = await fetch(imageUri);
+		const theBlob = await file.blob();
+		theBlob.lastModifiedDate = new Date();
+		theBlob.uri = imageUri
+		theBlob.name = 'teste.jpg'
+		theBlob.type = 'image/jpg'
 
-	// const theBlob = new Blob()
-	theBlob.uri = imageUri,
-	theBlob.name = 'teste.jpg'
-	theBlob.type = 'image/jpg'	  
-
-	const form = new FormData();
-	form.append('system_type_id', system_type_id);
-	form.append('maintenance_type_id', maintenance_type_id);
-	form.append('user_id', user_id);
-	form.append('client_parent', client_parent);
-	form.append('consistency_status', consistency_status);
-	form.append('observation', observation);
-	form.append('action', action);
-	form.append('image', theBlob);
-	const response = await axiosInstance.post('/inspections/register_maintenance', form, {
-		headers: {
-			'Content-Type': 'multipart/form-data',
-		},
-		transformRequest: d => d,
-	});
-	return response.data;
+		const form = new FormData();
+		form.append('system_type_id', system_type_id);
+		form.append('maintenance_type_id', maintenance_type_id);
+		form.append('user_id', user_id);
+		form.append('client_parent', client_parent);
+		form.append('consistency_status', consistency_status);
+		form.append('observation', observation);
+		form.append('action', action);
+		form.append('image', theBlob);
+		const response = await axiosInstance.post('/inspections/register_maintenance', form, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+			transformRequest: d => d,
+		});
+		return response.data;
 
 	} catch (error) {
 
