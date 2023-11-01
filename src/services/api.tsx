@@ -73,16 +73,6 @@ export const saveInspectableIsClosed = async (
 	}
 };
 
-async function createBlobFromImageURI(imageUri: any) {
-	try {
-		const response = await fetch(imageUri);
-		const blob = await response.blob();
-		return blob
-	} catch (error) {
-		return null;
-	}
-}
-
 export const register_maintenance = async (
 	system_type_id: any,
 	maintenance_type_id: any,
@@ -94,8 +84,18 @@ export const register_maintenance = async (
 	imageUri: any
 ) => {
 	await setAuthToken();
-	// try {
-	const imageBlob = await createBlobFromImageURI(imageUri);
+	try {
+	const file = await fetch(imageUri);
+	const theBlob = await file.blob();
+	theBlob.lastModifiedDate = new Date();
+	// theBlob.name = "file_name.jpg";
+	// theBlob.type ="image/jpeg"
+
+	// const theBlob = new Blob()
+	theBlob.uri = imageUri,
+	theBlob.name = 'teste.jpg'
+	theBlob.type = 'image/jpg'	  
+
 	const form = new FormData();
 	form.append('system_type_id', system_type_id);
 	form.append('maintenance_type_id', maintenance_type_id);
@@ -104,23 +104,19 @@ export const register_maintenance = async (
 	form.append('consistency_status', consistency_status);
 	form.append('observation', observation);
 	form.append('action', action);
-	form.append('image', imageBlob);
-	// form.append('image', 'new Blob()');
-
+	form.append('image', theBlob);
 	const response = await axiosInstance.post('/inspections/register_maintenance', form, {
 		headers: {
 			'Content-Type': 'multipart/form-data',
 		},
-		transformRequest: (data, headers) => {
-			return form; // this is doing the trick
-		},
+		transformRequest: d => d,
 	});
 	return response.data;
 
-	// } catch (error) {
+	} catch (error) {
 
-	// 	throw new Error('Erro ao salvar Tarefa');
-	// }
+		throw new Error('Erro ao salvar Tarefa');
+	}
 };
 
 export const alterStatusInspectionById = async (inspectionId: number, status: number) => {
