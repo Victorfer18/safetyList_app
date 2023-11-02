@@ -100,7 +100,7 @@ export const register_maintenance = async (
 		form.append('consistency_status', consistency_status);
 		form.append('observation', observation);
 		form.append('action', action);
-		form.append('image', theBlob);
+		form.append('image', theBlob._data.name);
 		const response = await axiosInstance.post('/inspections/register_maintenance', form, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
@@ -110,19 +110,20 @@ export const register_maintenance = async (
 		return response.data;
 
 	} catch (error) {
-
-		throw new Error('Erro ao salvar Tarefa');
+		throw new Error(`Erro ao salvar Tarefa: ${error.message}`);
 	}
+
 };
 
-export const alterStatusInspectionById = async (inspectionId: number, status: number) => {
+export const alterStatusInspectionById = async (user_id: number, inspectionId: number, status: number) => {
 	await setAuthToken();
 	try {
 		const requestBody = {
-			user_id: 82,
-			status_inspection: status
+			user_id: user_id,
+			status_inspection: status,
+			inspection_id: inspectionId
 		};
-		const response = await axiosInstance.put(`/inspections/alter_status/${inspectionId}`, requestBody);
+		const response = await axiosInstance.put(`/inspections/alter_status`, requestBody);
 		return response.data;
 	} catch (error) {
 		throw new Error('Erro ao alterar o status da inspecao por ID');
@@ -174,6 +175,6 @@ export const login = async (userEmail: string, userPassword: string) => {
 		const response = await axiosInstance.post('/login', requestBody);
 		return response.data;
 	} catch (error) {
-		throw new Error('Erro ao fazer login');
+		throw new Error(error.response.data.message);
 	}
 };

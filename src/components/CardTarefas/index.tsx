@@ -1,9 +1,10 @@
 // TaskList.js
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity, Image } from "react-native";
 import { Link } from 'expo-router';
 import PropTypes from 'prop-types';
 import { useLocalSearchParams } from 'expo-router';
+
 
 
 const CardTarefas = ({ style, lista }: any) => {
@@ -20,7 +21,7 @@ const CardTarefas = ({ style, lista }: any) => {
                     asChild
                     key={i}
                 >
-                    <TouchableOpacity style={style.task}>
+                    <TouchableOpacity style={e.is_closed == 1 ? styleDisable.desativo : style.task}>
                         <View style={style.itemContainer}>
                             <Image
                                 style={style.icone}
@@ -41,5 +42,25 @@ CardTarefas.propTypes = {
     style: PropTypes.object.isRequired,
     lista: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
+
+const styleDisable = StyleSheet.create({
+    desativo: {
+        backgroundColor: "#444",
+        width: '42.5%',
+        marginLeft: '5%',
+        marginBottom: '5%',
+        padding: 0,
+        borderRadius: 12,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    }
+})
+
 
 export default CardTarefas;

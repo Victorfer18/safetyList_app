@@ -6,7 +6,7 @@ import Card from "@/components/Card";
 import Button from 'components/Button'
 import { Link, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from "expo-status-bar";
-import { get_maintenance_type, register_maintenance } from 'services/api';
+import { get_maintenance_type, register_maintenance, saveInspectableIsClosed } from 'services/api';
 import CustomInput from '@/components/CustomInput';
 import jwt from "@/services/jwt";
 
@@ -33,6 +33,11 @@ const App = ({ ...params }: any) => {
         })()
     }, []);
 
+
+    function final() {
+        saveInspectableIsClosed(local.client_id, local.inspection_id, local.system_type_id)
+    }
+
     async function saveTarefa(e: any) {
         const dado = await jwt()
 
@@ -47,7 +52,6 @@ const App = ({ ...params }: any) => {
             local.photoUri
         )
     };
-
     const renderCard = ({ item, index }) => (
         <Card key={index}>
             <Text style={styles.tituloCard}>
@@ -102,6 +106,7 @@ const App = ({ ...params }: any) => {
                 <AntDesign name="checkcircleo" size={16} color="white" />
             </Button>
         </Card>
+
     );
 
     return (
@@ -114,6 +119,13 @@ const App = ({ ...params }: any) => {
                     Tarefa
                 </Text>
             )}
+            ListFooterComponent={() => (<View style={{ margin: 16 }}>
+                <Button texto='Finalizar Tarefas' cor='#16be2e' line={20} active={false}>
+                    <AntDesign name="checkcircleo" size={16} color="white" />
+                </Button>
+            </View>
+            )
+            }
         />
     );
 }
