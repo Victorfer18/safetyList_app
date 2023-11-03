@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Camera } from 'expo-camera';
 import * as MediaLibrary from 'expo-media-library';
 import { FontAwesome } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useLocalSearchParams } from 'expo-router';
 
@@ -36,6 +37,10 @@ export default function camera() {
       exif: false
     };
 
+    const discardPhoto = () => {
+      setPhoto(undefined);
+    };
+
     let newPhoto = await cameraRef.current.takePictureAsync(options);
     setPhoto(newPhoto);
 
@@ -54,37 +59,77 @@ export default function camera() {
     return (
       <SafeAreaView style={styles.container}>
         <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
-        {hasMediaLibraryPermission ? <Button title="Save" onPress={savePhoto} /> : undefined}
-
-        <Button title="Discard" onPress={() => setPhoto(undefined)} />
+        <View style={styles.buttonContainer}>
+          {hasMediaLibraryPermission && (
+            <TouchableOpacity onPress={savePhoto} style={styles.button}>
+              <Ionicons name="save" size={40} color="white" />
+              <Text style={styles.buttonText}>Salvar</Text>
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity onPress={() => setPhoto(undefined)} style={styles.button}>
+            <Ionicons name="trash-bin" size={40} color="white" />
+            <Text style={styles.buttonText}>Descartar</Text>
+          </TouchableOpacity>
+        </View>
       </SafeAreaView>
     );
   }
 
   return (
-    <Camera style={styles.container} ref={cameraRef}>
-      <View>
-        <TouchableOpacity onPress={takePic}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={takePic}
+      activeOpacity={1}>
+      <Camera style={styles.camera} ref={cameraRef}>
+        <View>
+
           <FontAwesome name="camera" size={40} color="white" />
-        </TouchableOpacity>
-      </View>
-      <StatusBar style="dark" />
-    </Camera>
+
+        </View>
+        <StatusBar style="dark" />
+      </Camera>
+    </TouchableOpacity >
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'transparent',
+  },
+  camera: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  buttonContainer: {
-    backgroundColor: '#fff',
-    alignSelf: 'flex-end'
-  },
+
+
   preview: {
     alignSelf: 'stretch',
     flex: 1
-  }
+  },
+  buttonContainer: {
+    position: 'absolute',
+    bottom: 20, // ajuste conforme necessário
+    flexDirection: 'row',
+    justifyContent: 'space-evenly', // isso colocará espaço uniforme entre seus botões
+    width: '100%',
+  },
+  button: {
+    flex: 1,
+    alignItems: 'center', // centraliza o texto e o ícone verticalmente e horizontalmente
+    justifyContent: 'center',
+    backgroundColor: '#05f', // cor do fundo do botão
+    padding: 10,
+    borderRadius: 20, // cantos arredondados
+    margin: 5, // espaço entre os botões
+  },
+  buttonText: {
+    color: '#fff', // texto branco para contraste
+    marginTop: 5, // espaço entre o ícone e o texto
+  },
+  preview: {
+    alignSelf: 'stretch',
+    flex: 1,
+  },
 });
