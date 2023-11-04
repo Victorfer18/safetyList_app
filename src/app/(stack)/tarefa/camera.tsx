@@ -61,12 +61,12 @@ export default function camera() {
         <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
         <View style={styles.buttonContainer}>
           {hasMediaLibraryPermission && (
-            <TouchableOpacity onPress={savePhoto} style={styles.button}>
+            <TouchableOpacity onPress={savePhoto} style={styles.buttonSave}>
               <Ionicons name="save" size={40} color="white" />
               <Text style={styles.buttonText}>Salvar</Text>
             </TouchableOpacity>
           )}
-          <TouchableOpacity onPress={() => setPhoto(undefined)} style={styles.button}>
+          <TouchableOpacity onPress={() => setPhoto(undefined)} style={styles.buttonDiscard}>
             <Ionicons name="trash-bin" size={40} color="white" />
             <Text style={styles.buttonText}>Descartar</Text>
           </TouchableOpacity>
@@ -75,27 +75,33 @@ export default function camera() {
     );
   }
 
-  return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={takePic}
-      activeOpacity={1}>
-      <Camera style={styles.camera} ref={cameraRef}>
-        <View>
-
-          <FontAwesome name="camera" size={40} color="white" />
-
-        </View>
+  return (<Camera style={styles.camera} ref={cameraRef}>
+    <View style={styles.buttonContainer}>
+      <TouchableOpacity
+        style={styles.buttonCamera}
+        onPress={takePic}
+        activeOpacity={1}>
+        <FontAwesome name="camera" size={40} color="white" />
         <StatusBar style="dark" />
-      </Camera>
-    </TouchableOpacity >
+      </TouchableOpacity >
+    </View>
+
+  </Camera>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'transparent',
+  },
+  buttonCamera: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#05f',
+    padding: 10,
+    borderRadius: 20,
+    margin: 5,
   },
   camera: {
     flex: 1,
@@ -112,24 +118,29 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20, // ajuste conforme necessário
     flexDirection: 'row',
-    justifyContent: 'space-evenly', // isso colocará espaço uniforme entre seus botões
-    width: '100%',
+    justifyContent: 'space-evenly',
   },
-  button: {
+  buttonSave: {
     flex: 1,
-    alignItems: 'center', // centraliza o texto e o ícone verticalmente e horizontalmente
+    alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#05f', // cor do fundo do botão
+    backgroundColor: '#05f',
     padding: 10,
-    borderRadius: 20, // cantos arredondados
-    margin: 5, // espaço entre os botões
+    borderRadius: 20,
+    margin: 5,
+  },
+  buttonDiscard: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#be1622',
+    padding: 10,
+    borderRadius: 20,
+    margin: 5,
   },
   buttonText: {
-    color: '#fff', // texto branco para contraste
-    marginTop: 5, // espaço entre o ícone e o texto
+    color: '#fff',
+    marginTop: 5,
   },
-  preview: {
-    alignSelf: 'stretch',
-    flex: 1,
-  },
+
 });

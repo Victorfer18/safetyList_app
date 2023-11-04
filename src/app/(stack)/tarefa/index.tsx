@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, TextInput, Image, FlatList } from "react-native";
+import { Text, View, StyleSheet, Image, FlatList } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { AntDesign } from '@expo/vector-icons';
 import Card from "@/components/Card";
