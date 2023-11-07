@@ -13,10 +13,11 @@ const CardTarefas = ({ style, lista }: any) => {
 
         <View style={style.grid}>
             {lista.map((e: any, i: any) => (
+
                 <Link
                     href={{
                         pathname: '/(stack)/tarefa',
-                        params: { system_type_id: e.system_type_id, client_id: e.client_id, client_parent: e.client_parent, user_id: local.user_id }
+                        params: { system_type_id: e.system_type_id, client_id: e.client_id, client_parent: e.client_parent, user_id: local.user_id, system_id: e.system_id, maintenance_type_id: e.maintenance_type_id }
                     }}
                     asChild
                     key={i}
