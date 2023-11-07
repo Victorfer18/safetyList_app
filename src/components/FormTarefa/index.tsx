@@ -27,6 +27,13 @@ function FormTarefa({ item, index }: any) {
                 setPhotoUri(local?.photoUri);
             }
         }
+
+        if (item?.file_url) {
+            setSelectedRadio(item.is_according ? 1 : 2)
+            setInputValue1(item?.observation)
+            setInputValue2(item?.action)
+        }
+
     }, [local?.photoUri]);
 
 
@@ -53,19 +60,36 @@ function FormTarefa({ item, index }: any) {
                 {item.maintenance_type_name}
             </Text>
             <View>
-                <Image source={photoUri ? { uri: photoUri } : defaultImage} alt={photoUri || ''} style={styles.imgDefault} />
-                <Link href={{
-                    pathname: '/(stack)/tarefa/camera',
-                    params: { system_type_id: local.system_type_id, client_id: local.client_id, client_parent: local.client_parent, user_id: local.user_id, select_id: index }
-                }} asChild >
+                {item?.file_url && (
+                    <Image source={{ uri: item?.file_url }} alt={photoUri || ''} style={styles.imgDefault} />
+                )}
+                {!item?.file_url && (
+                    <Image source={photoUri ? { uri: photoUri } : defaultImage} alt={photoUri || ''} style={styles.imgDefault} />
+                )}
+                {item?.file_url && (
 
-                    <Button texto='Foto' cor='#05f' line={16} width={120} marginTop={-70} marginLeft={16} >
+
+                    <Button texto='Foto' cor='#05f' line={16} width={120} marginTop={-70} marginLeft={16} active={false}>
                         <AntDesign name="clouduploado" size={24} color="white" />
                     </Button>
-                </Link>
+
+                )}
+
+                {!item?.file_url && (
+                    <Link href={{
+                        pathname: '/(stack)/tarefa/camera',
+                        params: { system_type_id: local.system_type_id, client_id: local.client_id, client_parent: local.client_parent, user_id: local.user_id, select_id: index, system_id: local.system_id }
+                    }} asChild >
+
+                        <Button texto='Foto' cor='#05f' line={16} width={120} marginTop={-70} marginLeft={16}  >
+                            <AntDesign name="clouduploado" size={24} color="white" />
+                        </Button>
+                    </Link>
+                )}
+
             </View>
             <View style={styles.btnArea}>
-                <TouchableOpacity onPress={() => setSelectedRadio(1)}>
+                <TouchableOpacity onPress={() => { if (!item?.file_url) setSelectedRadio(1) }}>
                     <View style={styles.wrapper}>
                         <View style={styles.radio}>
                             {selectedRadio == 1 ? <View style={styles.radioBg}></View> : null}
@@ -73,7 +97,7 @@ function FormTarefa({ item, index }: any) {
                         <Text style={styles.radioText}>Consistente</Text>
                     </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => setSelectedRadio(2)}>
+                <TouchableOpacity onPress={() => { if (!item?.file_url) setSelectedRadio(2) }}>
                     <View style={styles.wrapper}>
                         <View style={styles.radio}>
                             {selectedRadio == 2 ? <View style={styles.radioBg}></View> : null}
@@ -86,18 +110,18 @@ function FormTarefa({ item, index }: any) {
                 <CustomInput
                     placeholder="Observações"
                     value={inputValue1}
-                    onChangeText={(text) => setInputValue1(text)}
+                    onChangeText={(text) => { if (!item?.file_url) setInputValue1(text) }}
                 />
                 {selectedRadio == 2 && (
                     <CustomInput
                         placeholder="Ações a serem tomadas"
                         value={inputValue2}
-                        onChangeText={(text) => setInputValue2(text)}
+                        onChangeText={(text) => { if (!item?.file_url) setInputValue2(text) }}
                     />
                 )}
                 <StatusBar style="dark" />
             </View>
-            <Button texto=' Salvar Tarefa' cor='#16be2e' line={16} marginTop={0} onPress={() => saveTarefa(item)}>
+            <Button texto=' Salvar Tarefa' cor='#16be2e' line={16} marginTop={0} onPress={() => saveTarefa(item)} active={!item?.file_url}>
                 <AntDesign name="checkcircleo" size={16} color="white" />
             </Button>
         </Card >

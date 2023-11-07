@@ -35,21 +35,16 @@ const App = ({ ...params }: any) => {
                 }
                 return e
             })
-            //console.log(margin)
-            console.log(local.system_type_id, local.client_id)
-            //console.log(res2.payload)
 
-            setLista(res.payload)
+            setLista(margin)
             setResposta(res2.payload)
         })()
     }, []);
 
-    function final() {
-        saveInspectableIsClosed(local.client_id, local.inspection_id, local.system_type_id)
+    async function final() {
+        await (local.client_id, local.inspection_id, local.system_type_id)
 
-        setShowMessage(true);
-        setMessageText('Tarefas finalizadas com sucesso!');
-        setMessageType('success');
+        // redirecionar para intepeções
 
     }
 
@@ -71,7 +66,11 @@ const App = ({ ...params }: any) => {
                     </Text>
                 )}
                 ListFooterComponent={() => (<View style={{ margin: 16 }}>
-                    <Button texto='Finalizar Tarefas' cor='#16be2e' line={20} active={true} onPress={final}>
+                    <Button texto='Finalizar Tarefas' cor='#16be2e' line={20} onPress={() => {
+                        if (!lista.every(e => e?.file_url)) {
+                            final()
+                        }
+                    }} active={lista.every(e => !e?.file_url)}>
                         <AntDesign name="checkcircleo" size={16} color="white" />
                     </Button>
                 </View>
