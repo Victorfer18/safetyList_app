@@ -87,7 +87,7 @@ const App = () => {
                     <Button texto='ACESSAR' width='100%' marginTop={0} line={16} onPress={handleLogin} load={load} >
                         <AntDesign name={load ? "loading1" : "check"} size={16} color="white" />
                     </Button>
-                    <MessageDisplay message={message} type={'success'} show={!!message} />
+                    <MessageDisplay message={message} type={'error'} show={!!message} />
                 </View>
             </ImageBackground>
             <StatusBar style="light" />

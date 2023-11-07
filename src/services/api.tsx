@@ -1,7 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
+import * as Location from 'expo-location';
+import * as Network from 'expo-network';
 
 const getAuthToken = async () => {
 	try {
@@ -11,6 +11,11 @@ const getAuthToken = async () => {
 		throw error;
 	}
 };
+
+const isOn = async () => {
+	let state = await Network.getNetworkStateAsync();
+	return state.isConnected
+}
 
 const BASE_URL = 'https://safetylist.safety2u.com.br/public';
 
@@ -33,6 +38,7 @@ export const getInspectionsByClient = async (clientId: number) => {
 	await setAuthToken();
 	try {
 		const response = await axiosInstance.get(`/inspections/${clientId}`);
+		await AsyncStorage.setItem('inspections', JSON.stringify(response.data));
 		return response.data;
 	} catch (error) {
 		throw new Error('Erro ao obter inspecoes por cliente');
@@ -60,11 +66,13 @@ export const saveInspectableIsClosed = async (
 	systemTypeId: number
 ) => {
 	await setAuthToken();
+	const geo = await geoLocation()
 	try {
 		const requestBody = {
 			client_id: clientId,
 			inspection_id: inspectionId,
-			system_type_id: systemTypeId
+			system_type_id: systemTypeId,
+			...geo
 		};
 		const response = await axiosInstance.post('/inspections/save_is_closed', requestBody);
 		return response.data;
@@ -85,6 +93,7 @@ export const register_maintenance = async (
 ) => {
 	await setAuthToken();
 	try {
+		const geo = await geoLocation()
 		const file = await fetch(imageUri);
 		const theBlob = await file.blob();
 		theBlob.lastModifiedDate = new Date();
@@ -100,6 +109,8 @@ export const register_maintenance = async (
 		form.append('consistency_status', consistency_status);
 		form.append('observation', observation);
 		form.append('action', action);
+		form.append('latitude', geo?.latitude);
+		form.append('longitude', geo?.longitude);
 		form.append('image', theBlob._data.name);
 		const response = await axiosInstance.post('/inspections/register_maintenance', form, {
 			headers: {
@@ -117,11 +128,13 @@ export const register_maintenance = async (
 
 export const alterStatusInspectionById = async (user_id: number, inspectionId: number, status: number) => {
 	await setAuthToken();
+	const geo = await geoLocation()
 	try {
 		const requestBody = {
 			user_id: user_id,
 			status_inspection: status,
-			inspection_id: inspectionId
+			inspection_id: inspectionId,
+			...geo
 		};
 		const response = await axiosInstance.put(`/inspections/alter_status`, requestBody);
 		return response.data;
@@ -150,8 +163,18 @@ export const validateJwt = async (clientId: number) => {
 	}
 };
 
+export const geoLocation = async () => {
+	let { status } = await Location.requestForegroundPermissionsAsync();
+	let location = await Location.getCurrentPositionAsync({});
+	return {
+		latitude: location?.latitude || 0,
+		longitude: location?.longitude || 0
+	}
+}
+
 
 export const get_maintenance_type = async (system_type_id: number, client_id: number) => {
+
 	try {
 		const requestBody = {
 			system_type_id,
@@ -164,13 +187,27 @@ export const get_maintenance_type = async (system_type_id: number, client_id: nu
 	}
 };
 
+export const get_maintenance = async (system_id: number) => {
+
+	try {
+		const requestBody = {
+			system_id,
+		};
+		const response = await axiosInstance.post('/inspections/get_maintenance', requestBody);
+		return response.data;
+	} catch (error) {
+		throw new Error('Erro ao resgatar pergunta');
+	}
+};
 
 
 export const login = async (userEmail: string, userPassword: string) => {
+	const geo = await geoLocation()
 	try {
 		const requestBody = {
 			user_email: userEmail,
-			user_password: userPassword
+			user_password: userPassword,
+			...geo
 		};
 		const response = await axiosInstance.post('/login', requestBody);
 		return response.data;
