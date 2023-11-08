@@ -61,13 +61,19 @@ export default function camera() {
   if (photo) {
     let savePhoto = () => {
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-<<<<<<< HEAD
-=======
+        router.replace({
+          pathname: "/(stack)/tarefa/",
+          params: {
+            photoUri: photo.uri,
+            system_type_id: local.system_type_id,
+            client_id: local.client_id,
+            client_parent: local.client_parent,
+            user_id: local.user_id,
+            select_id: local.select_id,
+            system_id: local.system_id,
+          },
+        });
 
-        router.replace({ pathname: '/(stack)/tarefa/', params: { photoUri: photo.uri, system_type_id: local.system_type_id, client_id: local.client_id, client_parent: local.client_parent, user_id: local.user_id, select_id: local.select_id, system_id: local.system_id } });
-
-
->>>>>>> 24c9c5e8f028d8ccc4b4bb6b190efa5de9af0c86
         router.replace({
           pathname: "/(stack)/tarefa/",
           params: {
@@ -78,12 +84,19 @@ export default function camera() {
             user_id: local.user_id,
           },
         });
-<<<<<<< HEAD
-=======
 
-        router.replace({ pathname: '/(stack)/tarefa/', params: { photoUri: photo.uri, system_type_id: local.system_type_id, client_id: local.client_id, client_parent: local.client_parent, user_id: local.user_id, select_id: local.select_id } });
+        router.replace({
+          pathname: "/(stack)/tarefa/",
+          params: {
+            photoUri: photo.uri,
+            system_type_id: local.system_type_id,
+            client_id: local.client_id,
+            client_parent: local.client_parent,
+            user_id: local.user_id,
+            select_id: local.select_id,
+          },
+        });
 
->>>>>>> 24c9c5e8f028d8ccc4b4bb6b190efa5de9af0c86
         //router.replace('/(stack)/tarefa/', { photoUri: photo.uri });
         setPhoto(undefined);
       });
@@ -91,23 +104,18 @@ export default function camera() {
 
     return (
       <SafeAreaView style={styles.container}>
-
         <Image
           style={styles.preview}
           source={{ uri: "data:image/jpg;base64," + photo.base64 }}
         />
 
-<<<<<<< HEAD
-        <Button title="Discard" onPress={() => setPhoto(undefined)} />
-        <Button title="Save" onPress={savePhoto} />
-        {/* {hasMediaLibraryPermission ? (
-        ) : undefined} */}
-      </SafeAreaView>
-=======
         {/* {hasMediaLibraryPermission ? (
         ) : undefined} */}
 
-        <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
+        <Image
+          style={styles.preview}
+          source={{ uri: "data:image/jpg;base64," + photo.base64 }}
+        />
         <View style={styles.buttonContainer}>
           {hasMediaLibraryPermission && (
             <TouchableOpacity onPress={savePhoto} style={styles.buttonSave}>
@@ -115,29 +123,31 @@ export default function camera() {
               <Text style={styles.buttonText}>Salvar</Text>
             </TouchableOpacity>
           )}
-          <TouchableOpacity onPress={() => setPhoto(undefined)} style={styles.buttonDiscard}>
+          <TouchableOpacity
+            onPress={() => setPhoto(undefined)}
+            style={styles.buttonDiscard}
+          >
             <Ionicons name="trash-bin" size={40} color="white" />
             <Text style={styles.buttonText}>Descartar</Text>
           </TouchableOpacity>
         </View>
-
-      </SafeAreaView >
->>>>>>> 24c9c5e8f028d8ccc4b4bb6b190efa5de9af0c86
+      </SafeAreaView>
     );
   }
 
-  return (<Camera style={styles.camera} ref={cameraRef}>
-    <View style={styles.buttonContainer}>
-      <TouchableOpacity
-        style={styles.buttonCamera}
-        onPress={takePic}
-        activeOpacity={1}>
-        <FontAwesome name="camera" size={40} color="white" />
-        <StatusBar style="dark" />
-      </TouchableOpacity >
-    </View>
-
-  </Camera>
+  return (
+    <Camera style={styles.camera} ref={cameraRef}>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.buttonCamera}
+          onPress={takePic}
+          activeOpacity={1}
+        >
+          <FontAwesome name="camera" size={40} color="white" />
+          <StatusBar style="dark" />
+        </TouchableOpacity>
+      </View>
+    </Camera>
   );
 }
 
@@ -159,50 +169,48 @@ const styles = StyleSheet.create({
 
   buttonCamera: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#05f',
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#05f",
     padding: 10,
     borderRadius: 20,
     margin: 5,
   },
   camera: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   preview: {
-    alignSelf: 'stretch',
-    flex: 1
+    alignSelf: "stretch",
+    flex: 1,
   },
   buttonContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 20, // ajuste conforme necessário
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    flexDirection: "row",
+    justifyContent: "space-evenly",
   },
   buttonSave: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#05f',
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#05f",
     padding: 10,
     borderRadius: 20,
     margin: 5,
   },
   buttonDiscard: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#be1622',
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#be1622",
     padding: 10,
     borderRadius: 20,
     margin: 5,
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     marginTop: 5,
   },
-
 });
-
