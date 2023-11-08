@@ -61,10 +61,10 @@ export default function camera() {
   if (photo) {
     let savePhoto = () => {
       MediaLibrary.saveToLibraryAsync(photo.uri).then(() => {
-<<<<<<< HEAD
+
         router.replace({ pathname: '/(stack)/tarefa/', params: { photoUri: photo.uri, system_type_id: local.system_type_id, client_id: local.client_id, client_parent: local.client_parent, user_id: local.user_id, select_id: local.select_id, system_id: local.system_id } });
-=======
-<<<<<<< HEAD
+
+
         router.replace({
           pathname: "/(stack)/tarefa/",
           params: {
@@ -75,10 +75,9 @@ export default function camera() {
             user_id: local.user_id,
           },
         });
-=======
+
         router.replace({ pathname: '/(stack)/tarefa/', params: { photoUri: photo.uri, system_type_id: local.system_type_id, client_id: local.client_id, client_parent: local.client_parent, user_id: local.user_id, select_id: local.select_id } });
->>>>>>> 03489f0e0a8a789cc2a3fc55de5ccf9ec87f86df
->>>>>>> 05d4b8b61afb22e8880c7bc37c7de2cee1257d3a
+
         //router.replace('/(stack)/tarefa/', { photoUri: photo.uri });
         setPhoto(undefined);
       });
@@ -86,7 +85,7 @@ export default function camera() {
 
     return (
       <SafeAreaView style={styles.container}>
-<<<<<<< HEAD
+
         <Image
           style={styles.preview}
           source={{ uri: "data:image/jpg;base64," + photo.base64 }}
@@ -94,9 +93,9 @@ export default function camera() {
 
         <Button title="Discard" onPress={() => setPhoto(undefined)} />
         <Button title="Save" onPress={savePhoto} />
-    {/* {hasMediaLibraryPermission ? (
+        {/* {hasMediaLibraryPermission ? (
         ) : undefined} */}
-=======
+
         <Image style={styles.preview} source={{ uri: "data:image/jpg;base64," + photo.base64 }} />
         <View style={styles.buttonContainer}>
           {hasMediaLibraryPermission && (
@@ -110,7 +109,7 @@ export default function camera() {
             <Text style={styles.buttonText}>Descartar</Text>
           </TouchableOpacity>
         </View>
->>>>>>> 03489f0e0a8a789cc2a3fc55de5ccf9ec87f86df
+
       </SafeAreaView >
     );
   }
@@ -133,7 +132,7 @@ export default function camera() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-<<<<<<< HEAD
+
     alignItems: "center",
     justifyContent: "center",
   },
@@ -145,9 +144,7 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
     flex: 1,
   },
-});
-=======
-  },
+
   buttonCamera: {
     flex: 1,
     alignItems: 'center',
@@ -162,8 +159,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-
-
   preview: {
     alignSelf: 'stretch',
     flex: 1
@@ -198,4 +193,4 @@ const styles = StyleSheet.create({
   },
 
 });
->>>>>>> 03489f0e0a8a789cc2a3fc55de5ccf9ec87f86df
+
