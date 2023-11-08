@@ -11,7 +11,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { Camera } from "expo-camera";
 import * as MediaLibrary from "expo-media-library";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useLocalSearchParams } from "expo-router";
 
@@ -91,8 +91,6 @@ export default function camera() {
           source={{ uri: "data:image/jpg;base64," + photo.base64 }}
         />
 
-        <Button title="Discard" onPress={() => setPhoto(undefined)} />
-        <Button title="Save" onPress={savePhoto} />
         {/* {hasMediaLibraryPermission ? (
         ) : undefined} */}
 
