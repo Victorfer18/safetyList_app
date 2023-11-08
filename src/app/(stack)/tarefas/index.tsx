@@ -37,7 +37,6 @@ const tarefas = () => {
                     Tarefas
                 </Text>
 
-
                 <CardTarefas style={style} lista={lista} />
                 <View style={style.boxSpace}>
                     {
