@@ -29,6 +29,7 @@ const App = ({ ...params }: any) => {
     useEffect(() => {
         (async () => {
             const res = await get_maintenance_type(local.system_type_id, local.client_id);
+<<<<<<< HEAD
             setLista(res.payload)
         })()
     }, []);
@@ -36,6 +37,27 @@ const App = ({ ...params }: any) => {
 
     function final() {
         saveInspectableIsClosed(local.client_id, local.inspection_id, local.system_type_id)
+=======
+            const res2 = await get_maintenance(local.system_id);
+            const margin = res.payload.map(e => {
+                let exist = res2.payload.find(i => e.maintenance_type_name == i.maintenance_type_name)
+                if (exist) {
+                    e = { ...exist, ...e }
+                }
+                return e
+            })
+
+            setLista(margin)
+            setResposta(res2.payload)
+        })()
+    }, []);
+
+    async function final() {
+        await (local.client_id, local.inspection_id, local.system_type_id)
+
+        // redirecionar para intepeções
+
+>>>>>>> 84ffa23dd4d5ecbfe712e859f5daa734521eadd1
     }
 
     async function saveTarefa(e: any) {
@@ -110,6 +132,7 @@ const App = ({ ...params }: any) => {
     );
 
     return (
+<<<<<<< HEAD
         <FlatList
             data={lista}
             renderItem={renderCard}
@@ -127,6 +150,35 @@ const App = ({ ...params }: any) => {
             )
             }
         />
+=======
+
+        <>
+            <MessageDisplay message={messageText} type={messageType} show={showMessage} />
+
+
+            <FlatList
+                data={lista}
+                renderItem={render}
+                keyExtractor={(item, index) => index.toString()}
+                ListHeaderComponent={() => (
+                    <Text style={styles.tituloPage}>
+                        Tarefa
+                    </Text>
+                )}
+                ListFooterComponent={() => (<View style={{ margin: 16 }}>
+                    <Button texto='Finalizar Tarefas' cor='#16be2e' line={20} onPress={() => {
+                        if (!lista.every(e => e?.file_url)) {
+                            final()
+                        }
+                    }} active={lista.every(e => !e?.file_url)}>
+                        <AntDesign name="checkcircleo" size={16} color="white" />
+                    </Button>
+                </View>
+                )
+                }
+            />
+        </>
+>>>>>>> 84ffa23dd4d5ecbfe712e859f5daa734521eadd1
     );
 }
 
