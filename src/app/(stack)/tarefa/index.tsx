@@ -13,11 +13,10 @@ import FormTarefa from "@/components/FormTarefa";
 import MessageDisplay from "@/components/feedBack"
 
 
-
-
 const App = ({ ...params }: any) => {
     const [lista, setLista] = useState([]);
     const [resposta, setResposta] = useState([]);
+
 
     const [showMessage, setShowMessage] = useState(false);
     const [messageText, setMessageText] = useState('');
@@ -37,57 +36,51 @@ const App = ({ ...params }: any) => {
                 return e
             })
             //console.log(margin)
-            console.log(local.system_type_id, local.client_id)
+            //console.log(local.system_type_id, local.client_id)
             //console.log(res2.payload)
 
             setLista(res.payload)
-            setLista(margin)
             setResposta(res2.payload)
         })()
     }, []);
 
-
     function final() {
         saveInspectableIsClosed(local.client_id, local.inspection_id, local.system_type_id)
-        async function final() {
-            await (local.client_id, local.inspection_id, local.system_type_id)
 
-            setShowMessage(true);
-            setMessageText('Tarefas finalizadas com sucesso!');
-            setMessageType('success');
-            // redirecionar para intepeções
+        setShowMessage(true);
+        setMessageText('Tarefas finalizadas com sucesso!');
+        setMessageType('success');
 
-        }
+    }
 
-        const render = ({ item, index }: any) => (<FormTarefa item={item} index={index} key={index} />)
-        return (
-            <>
-                <MessageDisplay message={messageText} type={messageType} show={showMessage} />
-                <FlatList
-                    data={lista}
-                    renderItem={render}
-                    keyExtractor={(item, index) => index.toString()}
-                    ListHeaderComponent={() => (
-                        <Text style={styles.tituloPage}>
-                            Tarefa
-                        </Text>
-                    )}
-                    ListFooterComponent={() => (<View style={{ margin: 16 }}>
-                        <Button texto='Finalizar Tarefas' cor='#16be2e' line={20} onPress={() => {
-                            if (!lista.every(e => e?.file_url)) {
-                                final()
-                            }
-                        }} active={lista.every(e => !e?.file_url)}>
-                            <AntDesign name="checkcircleo" size={16} color="white" />
-                        </Button>
-                    </View>
-                    )
-                    }
-                />
-            </>
-        );
-    };
-};
+    const render = ({ item, index }: any) => (<FormTarefa item={item} index={index} key={index} />)
+
+    return (
+
+        <>
+            <MessageDisplay message={messageText} type={messageType} show={showMessage} />
+
+
+            <FlatList
+                data={lista}
+                renderItem={render}
+                keyExtractor={(item, index) => index.toString()}
+                ListHeaderComponent={() => (
+                    <Text style={styles.tituloPage}>
+                        Tarefa
+                    </Text>
+                )}
+                ListFooterComponent={() => (<View style={{ margin: 16 }}>
+                    <Button texto='Finalizar Tarefas' cor='#16be2e' line={20} active={true} onPress={final}>
+                        <AntDesign name="checkcircleo" size={16} color="white" />
+                    </Button>
+                </View>
+                )
+                }
+            />
+        </>
+    );
+}
 
 const styles = StyleSheet.create({
     card: {
@@ -175,6 +168,7 @@ const styles = StyleSheet.create({
         color: '#222',
         fontWeight: "800",
     }
+
 });
 
 export default App;
