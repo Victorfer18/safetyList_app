@@ -36,9 +36,6 @@ function FormTarefa({ item, index }: any) {
 
     }, [local?.photoUri]);
 
-
-
-
     async function saveTarefa(e: any) {
         const dado = await jwt()
 
