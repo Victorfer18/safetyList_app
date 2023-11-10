@@ -23,7 +23,7 @@ const HeaderTitle = () => {
         style={{ flex: 1, height: 32, width: '30%', objectFit: "contain" }}
       />
       <View style={{ flex: 1, width: 32, height: 32 }}>
-        <TouchableOpacity onPress={handleLogin}>
+        <TouchableOpacity onLongPress={handleLogin}>
           <AntDesign name="logout" size={32} color="black" />
         </TouchableOpacity>
       </View>

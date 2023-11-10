@@ -10,8 +10,6 @@ import { register_maintenance } from 'services/api';
 import CustomInput from '@/components/CustomInput';
 import jwt from "@/services/jwt";
 
-
-
 function FormTarefa({ item, index }: any) {
     const local = useLocalSearchParams();
     const [photoUri, setPhotoUri] = useState(null);
@@ -57,6 +55,7 @@ function FormTarefa({ item, index }: any) {
                 {item.maintenance_type_name}
             </Text>
             <View>
+
                 {item?.file_url && (
                     <Image source={{ uri: item?.file_url }} alt={photoUri || ''} style={styles.imgDefault} />
                 )}
@@ -118,7 +117,7 @@ function FormTarefa({ item, index }: any) {
                 )}
                 <StatusBar style="dark" />
             </View>
-            <Button texto=' Salvar Tarefa' cor='#16be2e' line={16} marginTop={0} onPress={() => saveTarefa(item)} active={!item?.file_url}>
+            <Button texto=' Salvar Tarefa' cor='#16be2e' line={16} marginTop={0} onPress={() => { if (!item?.file_url) { saveTarefa(item) } }} active={!item?.file_url}>
                 <AntDesign name="checkcircleo" size={16} color="white" />
             </Button>
         </Card >
@@ -144,7 +143,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         marginTop: 22,
-
 
     },
     imgDefault: {
