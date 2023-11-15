@@ -50,31 +50,18 @@ const App = () => {
             if (response.success && response.payload) {
                 await AsyncStorage.setItem('userToken', response.payload);
                 router.replace({ pathname: '/(stack)/unidades' });
-            } else {
-                setTimeout(() => {
-                    setMessage('Senha incorreta.');
-                    setLoad(false);
-                    setTimeout(() => {
-                        setMessage('')
-                    }, 3000)
-                }, 2000);
             }
         } catch (error) {
             setTimeout(() => {
-                setMessage('Usuário não encontrado para o uso desta ferramenta.');
+                let msgError = error + ''
+                setMessage(msgError.replace('Error:', ''));
+
                 setLoad(false);
                 setTimeout(() => {
                     setMessage('')
                 }, 3000)
             }, 2000);
         }
-
-        // setTimeout(() => {
-        //         setLoad(false)
-        //         setTimeout(() => {
-        //             setMessage('')
-        //         }, 3000)
-        //     }, 2000);
     };
 
     return (

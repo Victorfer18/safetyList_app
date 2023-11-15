@@ -31,6 +31,7 @@ function FormTarefa({ item, index }: any) {
             setInputValue1(item?.observation)
             setInputValue2(item?.action)
         }
+        //console.log(item?.file_url)
 
     }, [local?.photoUri]);
 

@@ -94,9 +94,9 @@ const DropdownComponent = () => {
     <ImageBackground source={selectedImage} style={styles.fundo}>
 
       <View style={styles.card}>
-        {renderLabel()}
+
         <TouchableOpacity onPress={openModal} style={styles.dropdown}>
-          <Text>{selectedItem ? selectedItem.label : "Select item"}</Text>
+          <Text>{selectedItem ? selectedItem.label : "Selecione a unidade"}</Text>
         </TouchableOpacity>
         <Modal
           animationType="slide"
@@ -119,13 +119,13 @@ const DropdownComponent = () => {
 
         {!!value ? (
           <Link href={'/(stack)/inspections/' + value} asChild>
-            <Button texto='Proseguir' line={16} marginTop={16} active={!!value}>
+            <Button texto='Proseguir' line={16} marginTop={16}>
               <MaterialIcons name="navigate-next" size={16} color="white" />
             </Button>
           </Link>
 
         ) : (
-          <Button texto='Proseguir' line={16} marginTop={16} active={!!value}>
+          <Button texto='Proseguir' line={16} marginTop={16} >
             <MaterialIcons name="navigate-next" size={16} color="white" />
           </Button>
         )}
@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     justifyContent: 'center',
     margin: 20,
+    //marginTop: 50,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: '#d1d1d1',
@@ -173,6 +174,7 @@ const styles = StyleSheet.create({
 
   },
   dropdown: {
+    marginTop: 16,
     height: 50,
     borderColor: 'gray',
     borderWidth: 0.5,
