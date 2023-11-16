@@ -7,7 +7,8 @@ import {
   Dimensions,
   TouchableOpacity,
   ImageBackground,
-  ScrollView
+  ScrollView,
+  SafeAreaView
 } from 'react-native';
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -104,17 +105,19 @@ const DropdownComponent = () => {
           visible={modalVisible}
           onRequestClose={closeModal}
         >
-          <ScrollView>
-            {data.map((item) => (
-              <TouchableOpacity key={item.value} onPress={() => selectItem(item)}>
-                <Text style={styles.item}>{item.label}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
+          <SafeAreaView style={{ flex: 1 }}>
+            <ScrollView>
+              {data.map((item) => (
+                <TouchableOpacity key={item.value} onPress={() => selectItem(item)}>
+                  <Text style={styles.item}>{item.label}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
 
-          <TouchableOpacity onPress={closeModal} style={styles.closeModalButton}>
-            <Text style={{ color: '#fff' }}>Fechar</Text>
-          </TouchableOpacity>
+            <TouchableOpacity onPress={closeModal} style={styles.closeModalButton}>
+              <Text style={{ color: '#fff' }}>Fechar</Text>
+            </TouchableOpacity>
+          </SafeAreaView>
         </Modal>
 
         {!!value ? (

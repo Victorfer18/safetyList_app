@@ -40,7 +40,7 @@ const inspections = () => {
                 {lista.map((e, i) => (
 
                     <Card key={i}>
-                        <Text style={style.titulo}>{e.info_name}</Text>
+                        <Text style={style.titulo}>{e.inspection_name}</Text>
                         <Text style={style.paragrafo}>Criado em: {formData(e.date_created)}</Text>
                         <Text style={style.paragrafo}>Data estimada: {formData(e.date_estimated)}</Text>
                         <Text style={style.paragrafo}>Status: {e.status_inspection_desc}</Text>
