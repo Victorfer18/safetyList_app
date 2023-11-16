@@ -53,7 +53,7 @@ const DropdownComponent = () => {
       const data = await jwt()
 
       getClientsById(data.client_id).then(res => {
-        setData(res.payload.map(e => ({ label: e.info_name, value: e.client_id, image: require('assets/images/unidades/1.png') })));
+        setData(res.payload.map(e => ({ label: e.info_name, value: e.client_id, image: { uri: e.image } })));
       })
     })()
 
@@ -71,7 +71,7 @@ const DropdownComponent = () => {
 
   const selectItem = (item) => {
     setValue(item.value);
-    setSelectedImage(fotos.find(i => i.value == item.value)?.image || defaultImage);
+    setSelectedImage(item?.image || defaultImage);
     setModalVisible(false);
   };
 
