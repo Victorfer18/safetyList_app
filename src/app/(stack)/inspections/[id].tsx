@@ -62,7 +62,7 @@ const inspections = () => {
                     </Card>
                 ))}
                 {
-                    lista.length == 0 && (<Text style={style.msgInspecoes}>Não há inspeções a serem realizadas para essa unidade!</Text>)
+                    lista.length == 0 && ( <View style={style.msgInspecoes}><Text >Não há inspeções a serem realizadas para essa unidade!</Text></View> )
                 }
             </ScrollView>
             <StatusBar style="dark" />
@@ -103,8 +103,7 @@ const style = StyleSheet.create({
         backgroundColor: '#ccc',
         color: '#555',
         margin: 16,
-        borderRadius: 8,
-
+        borderRadius: 16,
     },
     statusNaoIniciado: {
         fontWeight: "bold",

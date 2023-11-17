@@ -84,11 +84,12 @@ const DropdownComponent = () => {
 					<ScrollView>
 						{data.map((item) => (
 							<TouchableOpacity key={item.value} onPress={() => selectItem(item)}>
-								<Text style={styles.item}>{item.label}</Text>
+								<View style={styles.item}>
+									<Text>{item.label}</Text>
+								</View>
 							</TouchableOpacity>
 						))}
 					</ScrollView>
-
 					<TouchableOpacity onPress={closeModal} style={styles.closeModalButton}>
 						<Text style={{ color: '#fff' }}>Fechar</Text>
 					</TouchableOpacity>
@@ -100,7 +101,6 @@ const DropdownComponent = () => {
 						<MaterialIcons name="navigate-next" size={16} color="white" />
 					</Button>
 				</Link>
-
 			) : (
 				<Button texto='Prosseguir' line={16} marginTop={16} >
 					<MaterialIcons name="navigate-next" size={16} color="white" />
