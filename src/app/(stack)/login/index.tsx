@@ -69,8 +69,8 @@ const App = () => {
                 router.replace({ pathname: '/(stack)/unidades' });
             }
         } catch (error) {
+            let msgError = error + ''
             setTimeout(() => {
-                let msgError = error + ''
                 setMessage(msgError?.replace('Error:', ''));
                 setLoad(false);
                 setTimeout(() => {
