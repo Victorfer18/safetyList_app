@@ -27,7 +27,7 @@ const DropdownComponent = () => {
 	const [isFocus, setIsFocus] = useState(false);
 
 	useEffect(() => {
-		;(async _ => {
+		; (async _ => {
 			const data = await jwt()
 			getClientsById(data.client_id).then(res => {
 				setData(res.payload.map(e => ({ label: e.info_name, value: e.client_id, image: { uri: e.image } })));
@@ -65,24 +65,14 @@ const DropdownComponent = () => {
 		return null;
 	};
 
-
-
-
 	return (
-
-
-
 		<View style={styles.card}>
 
 			<ImageBackground source={selectedImage} style={styles.cardImage}></ImageBackground>
 
 			<TouchableOpacity onPress={openModal} style={styles.dropdown}>
-
-				<Text>{selectedItem ? selectedItem.label : "Selecione a unidade"}</Text>
-
+				<Text>{selectedItem ? selectedItem.label : "Selecione um item"}</Text>
 				<Entypo name="chevron-down" size={16} color="#333232" />
-
-
 			</TouchableOpacity>
 			<Modal
 				animationType="slide"
@@ -104,36 +94,33 @@ const DropdownComponent = () => {
 					</TouchableOpacity>
 				</SafeAreaView>
 			</Modal>
-
 			{!!value ? (
 				<Link href={'/(stack)/inspections/' + value} asChild>
-					<Button texto='Proseguir' line={16} marginTop={16}>
+					<Button texto='Prosseguir' line={16} marginTop={16}>
 						<MaterialIcons name="navigate-next" size={16} color="white" />
 					</Button>
 				</Link>
 
 			) : (
-				<Button texto='Proseguir' line={16} marginTop={16} >
+				<Button texto='Prosseguir' line={16} marginTop={16} >
 					<MaterialIcons name="navigate-next" size={16} color="white" />
 				</Button>
 			)}
 			<StatusBar style='dark' />
 		</View>
-
 	);
 };
 
 export default DropdownComponent;
 
 const styles = StyleSheet.create({
-
 	fundo: {
 		flex: 1,
 		justifyContent: 'flex-end',
 	},
 	cardImage: {
 		width: '100%', // Ajuste a largura conforme necessário
-		height: 400, // Ajuste a altura conforme necessário
+		height: 270, // Ajuste a altura conforme necessário
 		borderRadius: 8,
 		marginTop: 16,
 		backgroundColor: '#fff', // Cor de fundo para a borda
@@ -155,7 +142,7 @@ const styles = StyleSheet.create({
 		marginTop: 20,
 		padding: 16,
 		backgroundColor: '#eee',
-		borderRadius: 8,
+		borderRadius: 16,
 		marginLeft: 20,
 		marginRight: 20,
 		color: '#222'
@@ -222,7 +209,6 @@ const styles = StyleSheet.create({
 		alignSelf: 'center',
 		marginTop: -120,
 	},
-
 	customButton: {
 		marginTop: 20,
 		backgroundColor: '#be1622',
@@ -238,18 +224,14 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		fontWeight: 'bold',
 	},
-
 	modal: {
 		padding: 48,
 	},
 	closeModalButton: {
 		alignItems: 'center',
-		padding: 8,
+		padding: 18,
 		margin: 16,
 		backgroundColor: '#be1622',
-		borderRadius: 8,
-
+		borderRadius: 16,
 	},
-
-
 });

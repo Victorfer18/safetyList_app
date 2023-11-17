@@ -28,7 +28,6 @@ const App = () => {
                 router.replace({ pathname: '/(stack)/unidades' });
             }
         })()
-
     }, []);
 
     const validateEmail = (email) => {
