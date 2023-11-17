@@ -71,12 +71,11 @@ const App = () => {
         } catch (error) {
             setTimeout(() => {
                 let msgError = error + ''
-                setMessage(msgError.replace('Error:', ''));
-                console.log(error)
+                setMessage(msgError?.replace('Error:', ''));
                 setLoad(false);
                 setTimeout(() => {
                     setMessage('')
-                }, 3000)
+                }, 10000)
             }, 2000);
         }
     };
