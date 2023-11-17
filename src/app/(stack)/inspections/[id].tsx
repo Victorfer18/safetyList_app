@@ -16,9 +16,7 @@ function alterStatus(user_id, inspection_id, status_inspection) {
     if (status_inspection == 1) {
         alterStatusInspectionById(user_id, inspection_id, 2)
     }
-
 };
-
 
 const inspections = () => {
     const { id } = useSearchParams();
@@ -30,7 +28,6 @@ const inspections = () => {
 
         })()
     }, [])
-
     return (
         <View>
             <ScrollView>
