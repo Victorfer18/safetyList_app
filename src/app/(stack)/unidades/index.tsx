@@ -13,7 +13,7 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import { getClientsById } from 'services/api';
 import Button from 'components/Button';
-import { MaterialIcons } from '@expo/vector-icons';
+import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import jwt from '@/services/jwt';
 import { Link } from 'expo-router';
 
@@ -80,9 +80,9 @@ const DropdownComponent = () => {
       <TouchableOpacity onPress={openModal} style={styles.dropdown}>
 
         <Text>{selectedItem ? selectedItem.label : "Selecione a unidade"}</Text>
-        {!selectedItem && (
-          <MaterialIcons name="list" size={24} color="black" />
-        )}
+
+        <Entypo name="chevron-down" size={16} color="#333232" />
+
 
       </TouchableOpacity>
       <Modal
