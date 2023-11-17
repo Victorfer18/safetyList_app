@@ -17,7 +17,7 @@ import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import jwt from '@/services/jwt';
 import { Link } from 'expo-router';
 
-const defaultImage = require('assets/images/unidades/default.png');
+const defaultImage = { uri: 'https://safetylist.safety2u.com.br/public/images/unidades/default.jpg' }
 
 const DropdownComponent = () => {
 

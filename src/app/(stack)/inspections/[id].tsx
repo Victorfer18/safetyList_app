@@ -46,8 +46,8 @@ const inspections = () => {
                         <Text style={style.paragrafo}>Data estimada: {formData(e.date_estimated)}</Text>
 
                         <Text style={style.paragrafo}>
-                            Status:
-                            <Text style={e.status_inspection_desc === "Não iniciado" ? style.statusNaoIniciado : e.status_inspection_desc === "Iniciado" ? style.statusIniciado : {}}>
+                        <Text style={style.b}> Status: &nbsp;</Text>
+                            <Text style={e.status_inspection == 1 ? style.statusNaoIniciado : style.statusIniciado}>
                                 {e.status_inspection_desc}
                             </Text>
                         </Text>
@@ -73,6 +73,9 @@ const inspections = () => {
 export default inspections;
 
 const style = StyleSheet.create({
+    b: {
+        fontWeight: 'bold'
+    },
     titulo: {
         borderColor: '#ccc',
         borderBottomWidth: 1,
@@ -103,14 +106,12 @@ const style = StyleSheet.create({
         borderRadius: 8,
 
     },
-
     statusNaoIniciado: {
         fontWeight: "bold",
-        color: "#6c757d", // Cinza
+        color: "#6c757d",
     },
     statusIniciado: {
         fontWeight: "bold",
-        color: "#0d6efd", // Azul
+        color: "#0d6efd",
     }
-
 })
