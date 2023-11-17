@@ -42,22 +42,22 @@ const App = () => {
 
         if (!username || !password) {
             setTimeout(() => {
-                setMessage('Por favor, preencha todos os campos.');
+                setMessage('Favor preencha todos os campos');
                 setLoad(false);
                 setTimeout(() => {
                     setMessage('')
-                }, 3000)
+                }, 10000)
             }, 2000);
             return;
         }
 
         if (!validateEmail(username)) {
             setTimeout(() => {
-                setMessage('Por favor, insira um e-mail válido.');
+                setMessage('Favor preencha um e-mail válido');
                 setLoad(false);
                 setTimeout(() => {
                     setMessage('');
-                }, 3000);
+                }, 10000);
             }, 2000);
             return;
         }
