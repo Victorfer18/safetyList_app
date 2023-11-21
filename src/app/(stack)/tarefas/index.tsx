@@ -8,6 +8,9 @@ import CardTarefas from "@/components/CardTarefas";
 import Button from 'components/Button'
 import { StatusBar } from "expo-status-bar";
 
+import CurrentCompany from '@/components/CurrentCompany';
+
+
 
 
 const tarefas = () => {
@@ -33,6 +36,7 @@ const tarefas = () => {
     return (
         <View>
             <ScrollView>
+                <CurrentCompany />
                 <Text style={style.tituloPage}>
                     Tarefas
                 </Text>
