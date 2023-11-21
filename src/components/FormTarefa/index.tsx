@@ -17,6 +17,7 @@ function FormTarefa({ item, index }: any) {
     const [inputValue1, setInputValue1] = useState('');
     const [inputValue2, setInputValue2] = useState('');
 
+
     const defaultImage = require('assets/images/tarefa/default.jpg');
 
     useEffect(() => {

@@ -7,6 +7,7 @@ import CardTarefas from "@/components/CardTarefas";
 
 import Button from 'components/Button'
 import { StatusBar } from "expo-status-bar";
+import HeaderTitle from "@/components/HeaderTitle";
 
 
 
@@ -33,6 +34,7 @@ const tarefas = () => {
     return (
         <View>
             <ScrollView>
+                <HeaderTitle name={local.inspection_name}></HeaderTitle>
                 <Text style={style.tituloPage}>
                     Tarefas
                 </Text>
