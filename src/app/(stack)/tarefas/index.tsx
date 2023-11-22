@@ -9,6 +9,9 @@ import Button from 'components/Button'
 import { StatusBar } from "expo-status-bar";
 import HeaderTitle from "@/components/HeaderTitle";
 
+import CurrentCompany from '@/components/CurrentCompany';
+
+
 
 
 const tarefas = () => {
@@ -34,7 +37,7 @@ const tarefas = () => {
     return (
         <View>
             <ScrollView>
-                <HeaderTitle name={local.inspection_name}></HeaderTitle>
+                <CurrentCompany />
                 <Text style={style.tituloPage}>
                     Tarefas
                 </Text>

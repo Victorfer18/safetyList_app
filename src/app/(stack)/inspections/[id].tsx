@@ -6,6 +6,7 @@ import { useSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { alterStatusInspectionById, getInspectionsByClient } from 'services/api';
 import { Link } from "expo-router";
+import CurrentCompany from '@/components/CurrentCompany';
 
 function formData(data: String) {
     let formatada = data?.substr(0, 10).split('-').reverse().join('/')
@@ -31,6 +32,7 @@ const inspections = () => {
     return (
         <View>
             <ScrollView>
+                <CurrentCompany />
                 <Text style={style.tituloPage}>
                     Inspeções
                 </Text>

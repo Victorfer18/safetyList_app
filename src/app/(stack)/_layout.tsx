@@ -32,33 +32,38 @@ const HeaderTitle = () => {
   const [isPressed, setIsPressed] = useState(false);
   const [clientID, setClientID] = useState(0);
   useEffect(() => {
-    ;(async _ => {
+    ; (async _ => {
       let jwt = await getJWT()
       setClientID(jwt.client_id)
     })()
   }, [])
 
   return (
-    <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-      <Image
-        source={require('assets/images/logo/safety-list.png')}
-        style={{
-          flex: 1, height: 32, width: '30%', resizeMode: "contain",
-
-        }}
-      />
-      <Image
-        source={{ uri: 'https://safetylist.safety2u.com.br/public/clients/getLogoInspectable/' + clientID }}
-        style={{ flex: 1, height: 32, width: '30%', resizeMode: "contain" }}
-      />
-      <View style={{ flex: 0, width: 32, height: 32, marginRight: 16 }}>
-        <TouchableOpacity
-          onPress={handleLogin}
-        >
-          <MaterialCommunityIcons name="logout" size={32} color="black" />
-        </TouchableOpacity>
+    <>
+      <View
+        style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between' }}
+      >
+        <View style={{ width: "33%" }} >
+          <Image
+            source={require('assets/images/logo/safety-list.png')}
+            style={{ height: 32, width: '100%', resizeMode: "contain" }}
+          />
+        </View>
+        <View style={{ width: "33%" }} >
+          <Image
+            source={{ uri: 'https://safetylist.safety2u.com.br/public/clients/getLogoInspectable/' + clientID }}
+            style={{ height: 32, width: '100%', resizeMode: "contain" }}
+          />
+        </View>
+        <View style={{ flex: 0, width: '33%', height: 32 }}>
+          <TouchableOpacity
+            onPress={handleLogin}
+          >
+            <MaterialCommunityIcons name="logout" size={32} color="black" />
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 

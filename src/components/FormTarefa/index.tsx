@@ -9,6 +9,7 @@ import { StatusBar } from "expo-status-bar";
 import { register_maintenance } from 'services/api';
 import CustomInput from '@/components/CustomInput';
 import jwt from "@/services/jwt";
+import MessageDisplay from '@/components/feedBack';
 
 function FormTarefa({ item, index }: any) {
     const local = useLocalSearchParams();
@@ -16,6 +17,10 @@ function FormTarefa({ item, index }: any) {
     const [selectedRadio, setSelectedRadio] = useState(1)
     const [inputValue1, setInputValue1] = useState('');
     const [inputValue2, setInputValue2] = useState('');
+
+    const [messageType, setMessageType] = useState('');
+    const [load, setLoad] = useState(false);
+    const [message, setMessage] = useState('');
 
 
     const defaultImage = require('assets/images/tarefa/default.jpg');
@@ -36,24 +41,42 @@ function FormTarefa({ item, index }: any) {
     }, [local?.photoUri]);
 
     async function saveTarefa(e: any) {
-        const dado = await jwt()
+        try {
+            const dado = await jwt()
 
-        const res = await register_maintenance(
-            local.system_type_id,
-            e.maintenance_type_id,
-            local.user_id,
-            local.client_parent,
-            selectedRadio == 1,
-            inputValue1,
-            inputValue2,
-            local.photoUri
+            const res = await register_maintenance(
+                local.system_type_id,
+                e.maintenance_type_id,
+                local.user_id,
+                local.client_parent,
+                selectedRadio == 1,
+                inputValue1,
+                inputValue2,
+                local.photoUri,
+            )
+            setTimeout(() => {
+                setMessage(res.message);
+                setMessageType("success");
+                setLoad(false);
+                setTimeout(() => {
+                    setMessage('')
+                }, 10000)
+            }, 2000);
 
-        )
-        console.log(res)
+
+        } catch (error) {
+            setTimeout(() => {
+                setMessage(error.message);
+                setMessageType("error");
+                setLoad(false);
+                setTimeout(() => {
+                    setMessage('')
+                }, 10000)
+            }, 2000);
+
+        }
 
     };
-    console.log(item.maintenance_type_name)
-    console.log(item.file_url)
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -129,6 +152,8 @@ function FormTarefa({ item, index }: any) {
                 <Button texto=' Salvar Tarefa' cor='#16be2e' line={16} marginTop={0} onPress={() => { if (!item?.file_url) { saveTarefa(item) } }} active={!item?.file_url}>
                     <AntDesign name="checkcircleo" size={16} color="white" />
                 </Button>
+
+                <MessageDisplay message={message} type={messageType} show={!!message} />
 
             </Card >
         </KeyboardAvoidingView>
@@ -219,6 +244,9 @@ const styles = StyleSheet.create({
         paddingBottom: 8,
         color: '#222',
         fontWeight: "800",
+    },
+    feedBack: {
+        justifyContent: 'center',
     }
 
 });

@@ -11,6 +11,8 @@ import CustomInput from '@/components/CustomInput';
 import jwt from "@/services/jwt";
 import FormTarefa from "@/components/FormTarefa";
 import MessageDisplay from "@/components/feedBack";
+import CurrentCompany from '@/components/CurrentCompany';
+
 
 
 const App = ({ ...params }: any) => {
@@ -67,9 +69,12 @@ const App = ({ ...params }: any) => {
                     renderItem={render}
                     keyExtractor={(item, index) => index.toString()}
                     ListHeaderComponent={() => (
-                        <Text style={styles.tituloPage}>
-                            Tarefa
-                        </Text>
+                        <>
+                            <CurrentCompany />
+                            <Text style={styles.tituloPage}>
+                                Tarefa
+                            </Text>
+                        </>
                     )}
                     ListFooterComponent={() => (<View style={{ margin: 16 }}>
                         <Button texto='Finalizar Tarefas' cor='#16be2e' line={20} onPress={() => {
