@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: 'absolute',
-    bottom: 20, // ajuste conforme necessário
+    bottom: 20,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
   },

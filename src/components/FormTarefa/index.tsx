@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Image, KeyboardAvoidingView, Platform } from "react-native";
+import { Text, View, StyleSheet, Image, KeyboardAvoidingView, Platform, Modal } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { AntDesign } from '@expo/vector-icons';
 import Card from "@/components/Card";
@@ -10,6 +10,7 @@ import { register_maintenance } from 'services/api';
 import CustomInput from '@/components/CustomInput';
 import jwt from "@/services/jwt";
 import MessageDisplay from '@/components/feedBack';
+import CameraComponent from '@/components/Camera';
 
 function FormTarefa({ item, index }: any) {
     const local = useLocalSearchParams();
@@ -21,6 +22,16 @@ function FormTarefa({ item, index }: any) {
     const [messageType, setMessageType] = useState('');
     const [load, setLoad] = useState(false);
     const [message, setMessage] = useState('');
+
+
+    const [isCameraVisible, setCameraVisible] = useState(false);
+    const openCamera = () => setCameraVisible(true);
+    const closeCamera = () => setCameraVisible(false);
+
+    const handleSavePhoto = (uri) => {
+        setPhotoUri(uri);
+        closeCamera();
+    };
 
 
     const defaultImage = require('assets/images/tarefa/default.jpg');
@@ -53,7 +64,7 @@ function FormTarefa({ item, index }: any) {
                 selectedRadio == 1,
                 inputValue1,
                 inputValue2,
-                local.photoUri,
+                photoUri,
             )
             setTimeout(() => {
                 setMessage(res.message);
@@ -84,6 +95,7 @@ function FormTarefa({ item, index }: any) {
     async function renderSaveTarefa() {
         if (!item?.file_url) { saveTarefa(item) }
     }
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -108,15 +120,9 @@ function FormTarefa({ item, index }: any) {
                     )}
 
                     {!item?.file_url && (
-                        <Link href={{
-                            pathname: '/(stack)/tarefa/camera',
-                            params: { system_type_id: local.system_type_id, client_id: local.client_id, client_parent: local.client_parent, user_id: local.user_id, select_id: index, system_id: local.system_id }
-                        }} asChild >
-
-                            <Button texto='Foto' cor='#05f' line={16} width={120} marginTop={-70} marginLeft={16}  >
-                                <AntDesign name="clouduploado" size={24} color="white" />
-                            </Button>
-                        </Link>
+                        <Button texto='Foto' cor='#05f' line={16} width={120} marginTop={-70} marginLeft={16} onPress={openCamera}>
+                            <AntDesign name="clouduploado" size={24} color="white" />
+                        </Button>
                     )}
 
                 </View>
@@ -159,7 +165,16 @@ function FormTarefa({ item, index }: any) {
 
                 <MessageDisplay message={message} type={messageType} show={!!message} />
 
+                <Modal
+                    animationType="slide"
+                    transparent={false}
+                    visible={isCameraVisible}
+                    onRequestClose={closeCamera}
+                >
+                    <CameraComponent onSave={handleSavePhoto} onClose={closeCamera} />
+                </Modal>
             </Card >
+
         </KeyboardAvoidingView >
     )
 }
