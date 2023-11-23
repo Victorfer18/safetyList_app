@@ -122,7 +122,8 @@ export const register_maintenance = async (
 		return response.data;
 
 	} catch (error) {
-		throw new Error(`Erro ao salvar Tarefa: ${error.message}`);
+		//console.log(error.response.data)
+		throw new Error('Entrada inválida');
 	}
 
 };
@@ -199,6 +200,7 @@ export const login = async (userEmail: string, userPassword: string) => {
 		const response = await axiosInstance.post('/login', requestBody);
 		return response.data;
 	} catch (error) {
+
 		throw new Error(error.response.data.message);
 	}
 };

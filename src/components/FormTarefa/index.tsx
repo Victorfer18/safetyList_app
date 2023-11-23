@@ -41,6 +41,7 @@ function FormTarefa({ item, index }: any) {
     }, [local?.photoUri]);
 
     async function saveTarefa(e: any) {
+        setLoad(true)
         try {
             const dado = await jwt()
 
@@ -65,8 +66,9 @@ function FormTarefa({ item, index }: any) {
 
 
         } catch (error) {
+            let msgError = error
             setTimeout(() => {
-                setMessage(error.message);
+                setMessage(msgError.message);
                 setMessageType("error");
                 setLoad(false);
                 setTimeout(() => {
@@ -76,7 +78,12 @@ function FormTarefa({ item, index }: any) {
 
         }
 
+
     };
+
+    async function renderSaveTarefa() {
+        if (!item?.file_url) { saveTarefa(item) }
+    }
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -95,12 +102,9 @@ function FormTarefa({ item, index }: any) {
                         <Image source={photoUri ? { uri: photoUri } : defaultImage} alt={photoUri || ''} style={styles.imgDefault} />
                     )}
                     {item?.file_url && (
-
-
                         <Button texto='Foto' cor='#05f' line={16} width={120} marginTop={-70} marginLeft={16} active={false}>
                             <AntDesign name="clouduploado" size={24} color="white" />
                         </Button>
-
                     )}
 
                     {!item?.file_url && (
@@ -149,14 +153,14 @@ function FormTarefa({ item, index }: any) {
                     )}
                     <StatusBar style="dark" />
                 </View>
-                <Button texto=' Salvar Tarefa' cor='#16be2e' line={16} marginTop={0} onPress={() => { if (!item?.file_url) { saveTarefa(item) } }} active={!item?.file_url}>
-                    <AntDesign name="checkcircleo" size={16} color="white" />
+                <Button texto=' Salvar Tarefa' cor='#16be2e' line={16} marginTop={0} onPress={renderSaveTarefa} load={load} active={!item?.file_url}>
+                    <AntDesign name={load ? "loading1" : "checkcircleo"} size={16} color="white" />
                 </Button>
 
                 <MessageDisplay message={message} type={messageType} show={!!message} />
 
             </Card >
-        </KeyboardAvoidingView>
+        </KeyboardAvoidingView >
     )
 }
 
