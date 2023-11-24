@@ -26,7 +26,6 @@ const tarefas = () => {
             setLista(res.payload)
         })()
     }, [])
-
     async function alterStatus() {
         if (lista.every(m => m.is_closed == 1)) {
             await alterStatusInspectionById(local.user_id, local.inspection_id, 3)
