@@ -4,7 +4,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { AntDesign } from '@expo/vector-icons';
 import Card from "@/components/Card";
 import Button from 'components/Button'
-import { Link, useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from "expo-status-bar";
 import { get_maintenance_type, get_maintenance, register_maintenance, saveInspectableIsClosed } from 'services/api';
 import CustomInput from '@/components/CustomInput';
@@ -47,6 +47,7 @@ const App = ({ ...params }: any) => {
     function final() {
         saveInspectableIsClosed(local.client_id, local.inspection_id, local.system_type_id)
 
+        router.replace({ pathname: `/(stack)/inspections/${local?.inspecao}` });
         setShowMessage(true);
         setMessageText('Tarefas finalizadas com sucesso!');
         setMessageType('success');
@@ -61,7 +62,7 @@ const App = ({ ...params }: any) => {
             style={{ flex: 1 }}
         >
             <>
-                <MessageDisplay message={messageText} type={messageType} show={showMessage} />
+
 
 
                 <FlatList
@@ -78,12 +79,14 @@ const App = ({ ...params }: any) => {
                     )}
                     ListFooterComponent={() => (<View style={{ margin: 16 }}>
                         <Button texto='Finalizar Tarefas' cor='#16be2e' line={20} onPress={() => {
-                            if (!lista.every(e => e?.file_url)) {
+                            if (lista.every(e => e?.file_url)) {
+
                                 final()
                             }
-                        }} active={lista.every(e => !e?.file_url)}>
+                        }} active={lista.every(e => e?.file_url)}>
                             <AntDesign name="checkcircleo" size={16} color="white" />
                         </Button>
+                        <MessageDisplay message={messageText} type={messageType} show={showMessage} />
                     </View>
                     )
                     }

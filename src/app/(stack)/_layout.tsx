@@ -14,8 +14,7 @@ const handleLogin = () => {
     [
       {
         text: "Não",
-        onPress: () => console.log("Cancelado"),
-        style: "cancel"
+        onPress: () => { }, style: "cancel"
       },
       {
         text: "Sim", onPress: async () => {

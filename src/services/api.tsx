@@ -122,7 +122,7 @@ export const register_maintenance = async (
 		return response.data;
 
 	} catch (error) {
-		//console.log(error.response.data)
+
 		throw new Error('Entrada inválida');
 	}
 
@@ -149,7 +149,7 @@ export const getClientsById = async (clientId: number) => {
 		const response = await axiosInstance.get(`/clients/${clientId}`);
 		return response.data;
 	} catch (error) {
-		console.log(error)
+
 		throw new Error('Erro ao obter clientes por ID');
 	}
 };
