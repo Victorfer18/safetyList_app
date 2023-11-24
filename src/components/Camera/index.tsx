@@ -46,20 +46,20 @@ const CameraComponent = ({ onClose, onSave }) => {
                 <View style={styles.previewContainer}>
                     <Image style={styles.preview} source={{ uri: photo.uri }} />
                     <View style={styles.buttonContainer}>
-                        <TouchableOpacity onPress={savePhoto} style={styles.button}>
+                        <TouchableOpacity onPress={savePhoto} style={[styles.button, styles.saveButton]}>
                             <Ionicons name="save" size={40} color="white" />
+                            <Text style={styles.buttonText}>Salvar</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => setPhoto(null)} style={styles.button}>
+                        <TouchableOpacity onPress={() => setPhoto(null)} style={[styles.button, styles.discardButton]}>
                             <Ionicons name="trash-bin" size={40} color="white" />
+                            <Text style={styles.buttonText}>Descartar</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
             ) : (
                 <Camera style={styles.camera} ref={cameraRef}>
                     <View style={styles.buttonContainer}>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={takePicture}>
+                        <TouchableOpacity style={styles.button} onPress={takePicture}>
                             <FontAwesome name="camera" size={40} color="white" />
                         </TouchableOpacity>
                     </View>
@@ -82,20 +82,40 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     preview: {
+        alignSelf: 'stretch',
         flex: 1,
     },
     buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
+        alignItems: 'center',
         position: 'absolute',
         bottom: 20,
+        left: 0,
+        right: 0,
+
     },
     button: {
         margin: 10,
         padding: 10,
-        backgroundColor: 'blue',
         borderRadius: 20,
+        width: 150,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    buttonText: {
+        color: 'white',
+        marginLeft: 10,
+    },
+    saveButton: {
+        backgroundColor: 'blue',
+    },
+    discardButton: {
+        backgroundColor: 'red',
     },
 });
+
+
 
 export default CameraComponent;
