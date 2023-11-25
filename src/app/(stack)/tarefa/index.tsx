@@ -24,10 +24,13 @@ const App = ({ ...params }: any) => {
     const [messageText, setMessageText] = useState('');
     const [messageType, setMessageType] = useState('error');
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const local = useLocalSearchParams();
 
     useEffect(() => {
         (async () => {
+            setIsLoading(true);
             const res = await get_maintenance_type(local.system_type_id, local.client_id);
             const res2 = await get_maintenance(local.system_id);
             const margin = res.payload.map(e => {
@@ -41,13 +44,14 @@ const App = ({ ...params }: any) => {
             setLista(margin)
 
             setResposta(res2.payload)
+            setIsLoading(false);
         })()
     }, []);
 
     function final() {
-        saveInspectableIsClosed(local.client_id, local.inspection_id, local.system_type_id)
+        saveInspectableIsClosed(local.client_parent, local.inspection_id, local.system_type_id)
 
-        router.replace({ pathname: `/(stack)/inspections/${local?.inspecao}` });
+        router.push({ pathname: `/(stack)/inspections/${local?.inspecao}` });
         setShowMessage(true);
         setMessageText('Tarefas finalizadas com sucesso!');
         setMessageType('success');
@@ -61,36 +65,42 @@ const App = ({ ...params }: any) => {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{ flex: 1 }}
         >
-            <>
-                <ScrollView
-                    style={{ flex: 1 }}
-                    keyboardShouldPersistTaps='handled'
-                >
-                    <CurrentCompany />
-                    <Text style={styles.tituloPage}>Tarefa</Text>
+            {isLoading ? (
+                <View style={styles.loadingContainer}>
+                    <Text>Carregando...</Text>
+                </View>
+            ) : (
+                <>
+                    <ScrollView
+                        style={{ flex: 1 }}
+                        keyboardShouldPersistTaps='handled'
+                    >
+                        <CurrentCompany />
+                        <Text style={styles.tituloPage}>Tarefa</Text>
 
-                    {lista.map((item, index) => (
-                        <FormTarefa item={item} index={index} key={index} />
-                    ))}
+                        {lista.map((item, index) => (
+                            <FormTarefa item={item} index={index} key={index} />
+                        ))}
 
-                    <View style={{ margin: 16 }}>
-                        <Button
-                            texto='Finalizar Tarefas'
-                            cor='#16be2e'
-                            line={20}
-                            onPress={() => {
-                                if (lista.every(e => e?.file_url)) {
-                                    final()
-                                }
-                            }}
-                            active={lista.every(e => e?.file_url)}
-                        >
-                            <AntDesign name="checkcircleo" size={16} color="white" />
-                        </Button>
-                        <MessageDisplay message={messageText} type={messageType} show={showMessage} />
-                    </View>
-                </ScrollView>
-            </>
+                        <View style={{ margin: 16 }}>
+                            <Button
+                                texto='Finalizar Tarefas'
+                                cor='#16be2e'
+                                line={20}
+                                onPress={() => {
+                                    if (lista.every(e => e?.file_url)) {
+                                        final()
+                                    }
+                                }}
+                                active={lista.every(e => e?.file_url)}
+                            >
+                                <AntDesign name="checkcircleo" size={16} color="white" />
+                            </Button>
+                            <MessageDisplay message={messageText} type={messageType} show={showMessage} />
+                        </View>
+                    </ScrollView>
+                </>
+            )}
         </KeyboardAvoidingView>
     );
 }
@@ -180,7 +190,12 @@ const styles = StyleSheet.create({
         paddingBottom: 8,
         color: '#222',
         fontWeight: "800",
-    }
+    },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 
 });
 
