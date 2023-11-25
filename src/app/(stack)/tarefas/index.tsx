@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, KeyboardAvoidingView } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { useEffect, useState } from "react";
 import { getInspectableList, saveInspectableIsClosed, alterStatusInspectionById } from 'services/api';
@@ -41,8 +41,12 @@ const tarefas = () => {
                 <Text style={style.tituloPage}>
                     Tarefas
                 </Text>
-
-                <CardTarefas style={style} lista={lista} />
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                    style={{ flex: 1 }}
+                >
+                    <CardTarefas style={style} lista={lista} />
+                </KeyboardAvoidingView>
                 <View style={style.boxSpace}>
                     {
                         lista.length == 0 && (<Text style={style.msgTarefas}>Não há tarefas a serem realizadas para essa inspeção!</Text>)
