@@ -82,10 +82,7 @@ const App = ({ ...params }: any) => {
             </View >
         ) : (
 
-            <KeyboardAwareScrollView
-                style={{ flex: 1 }}
-                keyboardShouldPersistTaps='handled'
-            >
+            <KeyboardAwareScrollView extraScrollHeight={100}>
 
                 <CurrentCompany />
                 <Text style={styles.tituloPage}>Tarefa</Text>
@@ -112,7 +109,6 @@ const App = ({ ...params }: any) => {
                 </View>
 
             </KeyboardAwareScrollView>
-            </KeyboardAvoidingView >
         )
     );
 }
