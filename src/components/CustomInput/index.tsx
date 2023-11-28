@@ -17,25 +17,19 @@ const CustomInput: React.ForwardRefRenderFunction<TextInput, CustomInputProps> =
 ) => {
     return (
 
-        <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{ flex: 1 }}>
-            <TouchableWithoutFeedback>
-                <View style={styles.container}>
-                    <AntDesign name={iconName || ''} size={24} color="#666" />
-                    <TextInput
-                        {...props}
-                        ref={ref}
-                        style={styles.input}
-                        onChangeText={onChangeText}
-                        value={value}
-                        placeholder={placeholder}
-                        secureTextEntry={secureTextEntry}
-                        placeholderTextColor="#aaa"
-                    />
-                </View>
-            </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
+        <View style={styles.container}>
+            <AntDesign name={iconName || ''} size={24} color="#666" />
+            <TextInput
+                {...props}
+                ref={ref}
+                style={styles.input}
+                onChangeText={onChangeText}
+                value={value}
+                placeholder={placeholder}
+                secureTextEntry={secureTextEntry}
+                placeholderTextColor="#aaa"
+            />
+        </View>
     );
 };
 

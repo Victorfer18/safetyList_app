@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Image, FlatList, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, Alert, TouchableWithoutFeedback } from "react-native";
+import { Text, View, StyleSheet, Image, FlatList, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, Alert } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { AntDesign } from '@expo/vector-icons';
 import Card from "@/components/Card";
@@ -78,45 +78,42 @@ const App = ({ ...params }: any) => {
                 <Text style={styles.loadingText}>Carregando...</Text>
             </View >
         ) : (
-            <>
-                <KeyboardAvoidingView
-                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                    style={{ flex: 1 }}>
-                    <TouchableWithoutFeedback>
-                        <ScrollView
-                            style={{ flex: 1 }}
-                            keyboardShouldPersistTaps='handled'
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{ flex: 1 }}>
+
+                <ScrollView
+                    style={{ flex: 1 }}
+                    keyboardShouldPersistTaps='handled'
+                >
+
+                    <CurrentCompany />
+                    <Text style={styles.tituloPage}>Tarefa</Text>
+
+                    {lista.map((item, index) => (
+                        <FormTarefa item={item} index={index} key={index} />
+                    ))}
+
+                    <View style={{ margin: 16 }}>
+                        <Button
+                            texto='Finalizar Tarefas'
+                            cor='#16be2e'
+                            line={20}
+                            onPress={() => {
+                                if (lista.every(e => e?.file_url)) {
+                                    final()
+                                }
+                            }}
+                            active={lista.every(e => e?.file_url)}
                         >
+                            <AntDesign name="checkcircleo" size={16} color="white" />
+                        </Button>
+                        {/* <MessageDisplay message={messageText} type={messageType} show={showMessage} /> */}
+                    </View>
 
-                            <CurrentCompany />
-                            <Text style={styles.tituloPage}>Tarefa</Text>
-
-                            {lista.map((item, index) => (
-                                <FormTarefa item={item} index={index} key={index} />
-                            ))}
-
-                            <View style={{ margin: 16 }}>
-                                <Button
-                                    texto='Finalizar Tarefas'
-                                    cor='#16be2e'
-                                    line={20}
-                                    onPress={() => {
-                                        if (lista.every(e => e?.file_url)) {
-                                            final()
-                                        }
-                                    }}
-                                    active={lista.every(e => e?.file_url)}
-                                >
-                                    <AntDesign name="checkcircleo" size={16} color="white" />
-                                </Button>
-                                {/* <MessageDisplay message={messageText} type={messageType} show={showMessage} /> */}
-                            </View>
-
-                        </ScrollView>
-                </KeyboardAvoidingView >
-            </>
+                </ScrollView>
+            </KeyboardAvoidingView>
         )
-
     );
 }
 
