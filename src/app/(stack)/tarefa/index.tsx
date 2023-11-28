@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet, Image, FlatList, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, Alert, Dimensions } from "react-native";
+import { Text, View, StyleSheet, Image, FlatList, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, Alert, Dimensions, ImageBackground } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { AntDesign } from '@expo/vector-icons';
 import Card from "@/components/Card";
@@ -15,6 +15,7 @@ import CurrentCompany from '@/components/CurrentCompany';
 
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
+const image = 'assets/images/login/background.png';
 
 const App = ({ ...params }: any) => {
     const [lista, setLista] = useState([]);
@@ -81,39 +82,56 @@ const App = ({ ...params }: any) => {
                 <Text style={styles.loadingText}>Carregando...</Text>
             </View >
         ) : (
+            <View style={styles.container}>
+                <ImageBackground source={require(image)} style={styles.image}>
+                    <View style={{ flex: 1 }}>
+                        <CurrentCompany />
+                        <KeyboardAwareScrollView extraScrollHeight={100} >
 
-            <KeyboardAwareScrollView extraScrollHeight={100}>
+                            <Text style={styles.tituloPage}>Tarefa</Text>
 
-                <CurrentCompany />
-                <Text style={styles.tituloPage}>Tarefa</Text>
+                            {lista.map((item, index) => (
+                                <FormTarefa item={item} index={index} key={index} />
+                            ))}
 
-                {lista.map((item, index) => (
-                    <FormTarefa item={item} index={index} key={index} />
-                ))}
+                            <View style={{ margin: 16 }}>
+                                <Button
+                                    texto='Finalizar Tarefas'
+                                    cor='#16be2e'
+                                    line={20}
+                                    onPress={() => {
+                                        if (lista.every(e => e?.file_url)) {
+                                            final()
+                                        }
+                                    }}
+                                    active={lista.every(e => e?.file_url)}
+                                >
+                                    <AntDesign name="checkcircleo" size={16} color="white" />
+                                </Button>
 
-                <View style={{ margin: 16 }}>
-                    <Button
-                        texto='Finalizar Tarefas'
-                        cor='#16be2e'
-                        line={20}
-                        onPress={() => {
-                            if (lista.every(e => e?.file_url)) {
-                                final()
-                            }
-                        }}
-                        active={lista.every(e => e?.file_url)}
-                    >
-                        <AntDesign name="checkcircleo" size={16} color="white" />
-                    </Button>
-                    {/* <MessageDisplay message={messageText} type={messageType} show={showMessage} /> */}
-                </View>
+                            </View>
 
-            </KeyboardAwareScrollView>
+
+                        </KeyboardAwareScrollView>
+
+                    </View>
+                </ImageBackground>
+            </View >
         )
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+    },
+    image: {
+        flex: 1,
+        resizeMode: 'cover',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     card: {
         height: 500,
         padding: 16,
@@ -165,11 +183,6 @@ const styles = StyleSheet.create({
         borderRadius: 24,
     },
 
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        marginTop: 16,
-    },
     input: {
         height: 40,
         borderColor: 'gray',
@@ -188,7 +201,7 @@ const styles = StyleSheet.create({
         marginLeft: 18,
         marginTop: 18,
         textTransform: "uppercase",
-        color: '#222',
+        color: '#ccc',
     },
     tituloCard: {
         fontSize: 18,
