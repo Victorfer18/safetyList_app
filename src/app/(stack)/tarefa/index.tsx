@@ -72,11 +72,6 @@ const App = ({ ...params }: any) => {
     const render = ({ item, index }: any) => (<FormTarefa item={item} index={index} key={index} />)
 
     return (
-        // <KeyboardAvoidingView
-        //     behavior={Platform.OS === "ios" ? "padding" : "height"}
-        //     style={{ flex: 1 }}
-        // >
-        //    {
         isLoading ? (
             <View style={styles.loadingContainer} >
                 <ActivityIndicator size="large" color="#0000ff" />
@@ -84,10 +79,12 @@ const App = ({ ...params }: any) => {
             </View >
         ) : (
             <>
+
                 <ScrollView
                     style={{ flex: 1 }}
                     keyboardShouldPersistTaps='handled'
                 >
+
                     <CurrentCompany />
                     <Text style={styles.tituloPage}>Tarefa</Text>
 
@@ -111,7 +108,9 @@ const App = ({ ...params }: any) => {
                         </Button>
                         {/* <MessageDisplay message={messageText} type={messageType} show={showMessage} /> */}
                     </View>
+
                 </ScrollView>
+
             </>
         )
         // </KeyboardAvoidingView >
