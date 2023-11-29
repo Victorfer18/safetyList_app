@@ -17,10 +17,11 @@ import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import jwt from '@/services/jwt';
 import { Link } from 'expo-router';
 import { setCompanyName } from '@/components/CurrentCompany';
+import BackgroundLayout from '@/components/BackgroundLayout';
 
 const defaultImage = { uri: 'https://safetylist.safety2u.com.br/public/images/unidades/default.jpg' }
 
-const image = 'assets/images/login/background.png';
+// const image = 'assets/images/login/background.png';
 
 const DropdownComponent = () => {
 
@@ -71,70 +72,58 @@ const DropdownComponent = () => {
 	};
 
 	return (
-		<ImageBackground source={require(image)} style={styles.imageBk}>
-			<View style={styles.container}>
-				<View style={styles.card}>
+		<BackgroundLayout>
+			<View style={styles.card}>
 
-					<ImageBackground source={selectedImage} style={styles.cardImage}></ImageBackground>
+				<ImageBackground source={selectedImage} style={styles.cardImage}></ImageBackground>
 
-					<TouchableOpacity onPress={openModal} style={styles.dropdown}>
-						<Text>{selectedItem ? selectedItem.label : "Selecione um item"}</Text>
-						<Entypo name="chevron-down" size={16} color="#333232" />
-					</TouchableOpacity>
-					<Modal
-						animationType="slide"
-						transparent={false}
-						visible={modalVisible}
-						onRequestClose={closeModal}
-					>
-						<SafeAreaView style={{ flex: 1 }}>
-							<ScrollView>
-								{data.map((item) => (
-									<TouchableOpacity key={item.value} onPress={() => selectItem(item)}>
-										<View style={styles.item}>
-											<Text>{item.label}</Text>
-										</View>
-									</TouchableOpacity>
-								))}
-							</ScrollView>
-							<TouchableOpacity onPress={closeModal} style={styles.closeModalButton}>
-								<Text style={{ color: '#fff' }}>Fechar</Text>
-							</TouchableOpacity>
-						</SafeAreaView>
-					</Modal>
-					{!!value ? (
-						<Link href={'/(stack)/inspections/' + value} onPress={() => setCompanyName(name)} asChild>
-							<Button texto='Prosseguir' line={16} marginTop={16}>
-								<MaterialIcons name="navigate-next" size={16} color="white" />
-							</Button>
-						</Link>
-					) : (
-						<Button texto='Prosseguir' line={16} marginTop={16} >
+				<TouchableOpacity onPress={openModal} style={styles.dropdown}>
+					<Text>{selectedItem ? selectedItem.label : "Selecione um item"}</Text>
+					<Entypo name="chevron-down" size={16} color="#333232" />
+				</TouchableOpacity>
+				<Modal
+					animationType="slide"
+					transparent={false}
+					visible={modalVisible}
+					onRequestClose={closeModal}
+				>
+					<SafeAreaView style={{ flex: 1 }}>
+						<ScrollView>
+							{data.map((item) => (
+								<TouchableOpacity key={item.value} onPress={() => selectItem(item)}>
+									<View style={styles.item}>
+										<Text>{item.label}</Text>
+									</View>
+								</TouchableOpacity>
+							))}
+						</ScrollView>
+						<TouchableOpacity onPress={closeModal} style={styles.closeModalButton}>
+							<Text style={{ color: '#fff' }}>Fechar</Text>
+						</TouchableOpacity>
+					</SafeAreaView>
+				</Modal>
+				{!!value ? (
+					<Link href={'/(stack)/inspections/' + value} onPress={() => setCompanyName(name)} asChild>
+						<Button texto='Prosseguir' line={16} marginTop={16}>
 							<MaterialIcons name="navigate-next" size={16} color="white" />
 						</Button>
-					)}
-					<StatusBar style='dark' />
+					</Link>
+				) : (
+					<Button texto='Prosseguir' line={16} marginTop={16} >
+						<MaterialIcons name="navigate-next" size={16} color="white" />
+					</Button>
+				)}
+				<StatusBar style='dark' />
 
-				</View>
 			</View>
-		</ImageBackground>
+		</BackgroundLayout>
 	);
 };
 
 export default DropdownComponent;
 
 const styles = StyleSheet.create({
-	imageBk: {
-		flex: 1,
-		resizeMode: 'cover',
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	container: {
-		flex: 1,
-		flexDirection: 'column',
-		justifyContent: 'center',
-	},
+
 	cardImage: {
 		minWidth: 320,
 		width: '100%', // Ajuste a largura conforme necessário
