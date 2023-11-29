@@ -125,7 +125,7 @@ export default DropdownComponent;
 const styles = StyleSheet.create({
 
 	cardImage: {
-		minWidth: 320,
+
 		width: '100%',
 		height: 270,
 		borderRadius: 8,
