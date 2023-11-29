@@ -126,22 +126,22 @@ const styles = StyleSheet.create({
 
 	cardImage: {
 		minWidth: 320,
-		width: '100%', // Ajuste a largura conforme necessário
-		height: 270, // Ajuste a altura conforme necessário
+		width: '100%',
+		height: 270,
 		borderRadius: 8,
 		marginTop: 16,
-		backgroundColor: '#fff', // Cor de fundo para a borda
-		overflow: 'hidden', // Para manter a borda arredondada
-		borderWidth: 1, // Espessura da borda
-		borderColor: '#d1d1d1', // Cor da borda
-		shadowColor: "#000", // Cor da sombra
+		backgroundColor: '#fff',
+		overflow: 'hidden',
+		borderWidth: 1,
+		borderColor: '#d1d1d1',
+		shadowColor: "#000",
 		shadowOffset: {
 			width: 0,
-			height: 4, // Quanto maior, mais distante parecerá a sombra
+			height: 4,
 		},
-		shadowOpacity: 0.3, // Opacidade da sombra
-		shadowRadius: 5, // Suavidade da sombra
-		elevation: 10, // Para Android, efeito de elevação/sombra
+		shadowOpacity: 0.3,
+		shadowRadius: 5,
+		elevation: 10,
 
 
 	},
