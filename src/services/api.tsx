@@ -253,7 +253,39 @@ export const get_maintenance = async (system_id: number) => {
 	}
 };
 
-export const login = async (userEmail: string, userPassword: string) => {
+const getErrorMessage = async (error) => {
+	const netInfo = await NetInfo.fetch();
+	if (!netInfo.isConnected) {
+		return 'Você está offline. Verifique sua conexão com a internet.';
+	}
+
+	if (error.response) {
+
+		const status = error.response.status;
+		switch (status) {
+			case 400:
+				return 'Requisição inválida. Por favor, verifique os dados enviados.';
+			case 401:
+				return 'Não autorizado. Por favor, faça login novamente.';
+			case 403:
+				return 'Acesso negado. Você não tem permissão para acessar este recurso.';
+			case 404:
+				return 'Recurso não encontrado.';
+			case 500:
+				return 'Erro interno do servidor.';
+			default:
+				return 'Ocorreu um erro desconhecido.';
+		}
+	} else if (error.request) {
+
+		return 'Não foi possível obter uma resposta do servidor.';
+	} else {
+
+		return 'Ocorreu um erro ao fazer a requisição.';
+	}
+};
+
+export const login = async (userEmail, userPassword) => {
 	try {
 		const requestBody = {
 			user_email: userEmail,
@@ -262,8 +294,7 @@ export const login = async (userEmail: string, userPassword: string) => {
 		const response = await axiosInstance.post('/login', requestBody);
 		return response.data;
 	} catch (error) {
-
-		throw new Error(error.response.data.message);
+		throw new Error(await getErrorMessage(error));
 	}
 };
 
