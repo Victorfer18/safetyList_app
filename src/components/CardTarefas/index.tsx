@@ -17,7 +17,7 @@ const CardTarefas = ({ style, lista }: any) => {
                 <Link
                     href={{
                         pathname: '/(stack)/tarefa',
-                        params: { system_type_id: e.system_type_id, client_id: e.client_id, client_parent: e.client_parent, user_id: local.user_id, system_id: e.system_id, maintenance_type_id: e.maintenance_type_id, inspection_name: e.inspection_name, inspection_id: local.inspection_id, inspecao: local.inspecao }
+                        params: { system_type_id: e.system_type_id, client_id: e.client_id, client_parent: e.client_parent, user_id: local.user_id, system_id: e.system_id, maintenance_type_id: e.maintenance_type_id, inspection_name: e.inspection_name, inspection_id: local.inspection_id, inspecao: local.inspecao, sector_area_pavement_id: local.sector_area_pavement_id }
                     }} onPress={() => setTypeName(e.system_type_name, e.system_type_icon)}
                     asChild
                     key={i}
