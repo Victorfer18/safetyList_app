@@ -110,7 +110,7 @@ export const saveInspectableIsClosed = async (
       system_type_id: systemTypeId,
     };
     const response = await axiosInstance.post(
-      "/inspections/save_is_closed",
+      "/inspections/set_is_closed",
       requestBody
     );
     return response.data;
