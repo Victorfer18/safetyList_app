@@ -120,55 +120,83 @@ export const saveInspectableIsClosed = async (
 };
 
 export const register_maintenance = async (
-  system_type_id: any,
-  maintenance_type_id: any,
-  user_id: any,
-  client_parent: any,
-  consistency_status: any,
-  observation: any,
-  action: any,
-  imageUri: any,
-  inspection_id: any
+	system_type_id: any,
+	maintenance_type_id: any,
+	user_id: any,
+	client_parent: any,
+	consistency_status: any,
+	observation: any,
+	action: any,
+	imageUri: any,
+	inspection_id: any,
+	sys_app_maintenances_id: any
 ) => {
   await setAuthToken();
 
-  if (await isOff()) {
-    let dataPut = await loadData({ list: true });
-    if (dataPut?.data) {
-      dataPut.data = [];
-    }
-    dataPut.data.push({
-      system_type_id,
-      maintenance_type_id,
-      user_id,
-      client_parent,
-      consistency_status,
-      observation,
-      action,
-      imageUri,
-      inspection_id,
-    });
+	if (await isOff()) {
+		let dataPut = (await loadData({ list: true }))
+		if (dataPut?.data) {
+			dataPut.data = []
+		}
+		dataPut.data.push({
+			system_type_id,
+			maintenance_type_id,
+			user_id,
+			client_parent,
+			consistency_status,
+			observation,
+			action,
+			imageUri,
+			inspection_id,
+			sys_app_maintenances_id
+		})
 
-    await saveData({ list: true }, dataPut);
-  }
-  console.log({
-    system_type_id,
-    maintenance_type_id,
-    user_id,
-    client_parent,
-    consistency_status,
-    observation,
-    action,
-    imageUri,
-    inspection_id,
-  });
-  try {
-    const file = await fetch(imageUri);
-    const theBlob = await file.blob();
-    theBlob.lastModifiedDate = new Date();
-    theBlob.uri = imageUri;
-    theBlob.name = "teste.jpg";
-    theBlob.type = "image/jpg";
+		await saveData({ list: true }, dataPut)
+
+	}
+	console.log({
+		system_type_id,
+		maintenance_type_id,
+		user_id,
+		client_parent,
+		consistency_status,
+		observation,
+		action,
+		imageUri,
+		inspection_id,
+		sys_app_maintenances_id
+	})
+	try {
+		const file = await fetch(imageUri);
+		const theBlob = await file.blob();
+		theBlob.lastModifiedDate = new Date();
+		theBlob.uri = imageUri
+		theBlob.name = 'teste.jpg'
+		theBlob.type = 'image/jpg'
+
+		const form = new FormData();
+		form.append('system_type_id', system_type_id);
+		form.append('maintenance_type_id', maintenance_type_id);
+		form.append('user_id', user_id);
+		form.append('client_parent', client_parent);
+		form.append('consistency_status', consistency_status ? '1' : '0');
+		form.append('observation', observation);
+		form.append('action', action);
+		form.append('image', theBlob);
+		form.append('inspection_id', inspection_id);
+		form.append('sys_app_maintenances_id', sys_app_maintenances_id);
+		const response = await axiosInstance.post('/inspections/register_maintenance', form, {
+			headers: {
+				'Content-Type': 'multipart/form-data',
+			},
+			transformRequest: d => d,
+		});
+		return response.data;
+
+	} catch (error) {
+
+		throw new Error('Entrada inválida');
+	}
 
     const form = new FormData();
     form.append("system_type_id", system_type_id);
@@ -243,43 +271,38 @@ export const validateJwt = async (clientId: number) => {
   }
 };
 
-export const get_maintenance_type = async (
-  system_type_id: number,
-  client_id: number
-) => {
-  let seed = { fn: "get_maintenance_type", system_type_id, client_id };
-  if (await isOff()) {
-    return await loadData(seed);
-  }
-  try {
-    const requestBody = {
-      system_type_id,
-      client_id,
-    };
-    const response = await axiosInstance.post(
-      "/inspections/get_maintenance_type",
-      requestBody
-    );
-    await saveData(seed, response.data);
-    return response.data;
-  } catch (error) {
-    throw new Error("Erro ao resgatar pergunta");
-  }
-};
 
-export const get_maintenance = async (system_id: number) => {
-  try {
-    const requestBody = {
-      system_id,
-    };
-    const response = await axiosInstance.post(
-      "/inspections/get_maintenance",
-      requestBody
-    );
-    return response.data;
-  } catch (error) {
-    throw new Error("Erro ao resgatar pergunta");
-  }
+// export const get_maintenance_type = async (system_type_id: number, client_id: number) => {
+// 	let seed = { fn: 'get_maintenance_type', system_type_id, client_id }
+// 	if (await isOff()) {
+// 		return await loadData(seed)
+
+// 	}
+// 	try {
+// 		const requestBody = {
+// 			system_type_id,
+// 			client_id
+// 		};
+// 		const response = await axiosInstance.post('/inspections/get_maintenance_type', requestBody);
+// 		await saveData(seed, response.data)
+// 		return response.data;
+// 	} catch (error) {
+// 		throw new Error('Erro ao resgatar pergunta');
+// 	}
+// };
+
+export const get_maintenance = async (system_type_id: number, client_id: number) => {
+
+	try {
+		const requestBody = {
+			system_type_id,
+			client_id
+		};
+		const response = await axiosInstance.post('/inspections/get_maintenance', requestBody);
+		return response.data;
+	} catch (error) {
+		throw new Error('Erro ao resgatar pergunta');
+	}
 };
 
 const getErrorMessage = async (error) => {
@@ -357,27 +380,32 @@ const loadData = async (seed: any) => {
   return {};
 };
 async function sincronizar() {
-  if (!(await isOff())) {
-    let dataPut = await loadData({ list: true });
-    dataPut?.data?.forEach(async (payload: any) => {
-      try {
-        await register_maintenance(
-          payload.system_type_id,
-          payload.maintenance_type_id,
-          payload.user_id,
-          payload.client_parent,
-          payload.consistency_status,
-          payload.observation,
-          payload.action,
-          payload.imageUri,
-          payload.inspection_id
-        );
-        dataPut.data = dataPut.data.filter(
-          (i: any) => payload.imageUri != i.imageUri
-        );
-      } catch (error) {}
-      await saveData({ list: true }, dataPut);
-    });
-  }
+	if (!(await isOff())) {
+
+		let dataPut = (await loadData({ list: true }))
+		dataPut?.data?.forEach(async (payload: any) => {
+			try {
+				await register_maintenance(
+
+					payload.system_type_id,
+					payload.maintenance_type_id,
+					payload.user_id,
+					payload.client_parent,
+					payload.consistency_status,
+					payload.observation,
+					payload.action,
+					payload.imageUri,
+					payload.inspection_id,
+					payload.sys_app_maintenances_id
+				);
+				dataPut.data = dataPut.data.filter((i: any) => payload.imageUri != i.imageUri)
+
+
+			} catch (error) {
+
+			}
+			await saveData({ list: true }, dataPut)
+		});
+	}
 }
 sincronizar();

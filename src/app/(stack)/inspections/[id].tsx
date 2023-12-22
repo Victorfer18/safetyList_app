@@ -50,7 +50,7 @@ const inspections = () => {
   useFocusEffect(
     useCallback(() => {
       loadData();
-      console.log(id);
+      //console.log(id);
     }, [id])
   );
 
