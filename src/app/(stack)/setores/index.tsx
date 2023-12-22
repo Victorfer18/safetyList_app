@@ -42,8 +42,6 @@ const setores = () => {
   const [name, setName] = useState("");
   const id = local.inspection_id;
   const loadData = async () => {
-    let InspectionName = (await AsyncStorage.getItem("CurrentNamePage")) || "";
-
     if (id) {
       try {
         const res = await getSectorsByIdInspection(id);
@@ -75,16 +73,18 @@ const setores = () => {
                 </View>
                 <Link
                   href={{
-                    pathname: `/(stack)/${e.is_closed === 0 ? "tarefas" : "setores"
-                      }/`,
+                    pathname: `/(stack)/${
+                      e.is_closed === 0 ? "tarefas" : "setores"
+                    }/`,
                     params: {
                       client_id: local.client_id,
                       inspection_id: local.inspection_id,
                       client_parent: local.client_parent,
-                      user_id: local.user_id,
+                      sector_area_pavement_id: e.sector_area_pavement_id,
                       inspection_name: local.inspection_name,
                       inspecao: id,
-                      sector_area_pavement_id: e.sector_area_pavement_id
+                      status_inspection: local.status_inspection,
+                      user_id: local.user_id,
                     },
                   }}
                   onPress={() => setInspectionName(e.fullSectorName)}
@@ -93,9 +93,9 @@ const setores = () => {
                   <Button
                     texto="Inspecionar"
                     active={e.is_closed === 0 ? true : false}
-                  // onPress={() => {
-                  //   alterStatus(e.user_id, e.inspection_id, e.status_inspection);
-                  // }}
+                    // onPress={() => {
+                    //   alterStatus(e.user_id, e.inspection_id, e.status_inspection);
+                    // }}
                   />
                 </Link>
               </Card>
