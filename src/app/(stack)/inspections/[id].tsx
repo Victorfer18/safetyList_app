@@ -84,7 +84,7 @@ const inspections = () => {
             </Text>
             <Link
               href={{
-                pathname: "/(stack)/tarefas/",
+                pathname: "/(stack)/setores/",
                 params: {
                   client_id: e.client_id,
                   inspection_id: e.inspection_id,
