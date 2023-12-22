@@ -109,7 +109,8 @@ export const register_maintenance = async (
 	observation: any,
 	action: any,
 	imageUri: any,
-	inspection_id: any
+	inspection_id: any,
+	sys_app_maintenances_id: any
 ) => {
 	await setAuthToken();
 
@@ -127,7 +128,8 @@ export const register_maintenance = async (
 			observation,
 			action,
 			imageUri,
-			inspection_id
+			inspection_id,
+			sys_app_maintenances_id
 		})
 
 		await saveData({ list: true }, dataPut)
@@ -142,7 +144,8 @@ export const register_maintenance = async (
 		observation,
 		action,
 		imageUri,
-		inspection_id
+		inspection_id,
+		sys_app_maintenances_id
 	})
 	try {
 		const file = await fetch(imageUri);
@@ -162,6 +165,7 @@ export const register_maintenance = async (
 		form.append('action', action);
 		form.append('image', theBlob);
 		form.append('inspection_id', inspection_id);
+		form.append('sys_app_maintenances_id', sys_app_maintenances_id);
 		const response = await axiosInstance.post('/inspections/register_maintenance', form, {
 			headers: {
 				'Content-Type': 'multipart/form-data',
@@ -221,30 +225,31 @@ export const validateJwt = async (clientId: number) => {
 };
 
 
-export const get_maintenance_type = async (system_type_id: number, client_id: number) => {
-	let seed = { fn: 'get_maintenance_type', system_type_id, client_id }
-	if (await isOff()) {
-		return await loadData(seed)
+// export const get_maintenance_type = async (system_type_id: number, client_id: number) => {
+// 	let seed = { fn: 'get_maintenance_type', system_type_id, client_id }
+// 	if (await isOff()) {
+// 		return await loadData(seed)
 
-	}
+// 	}
+// 	try {
+// 		const requestBody = {
+// 			system_type_id,
+// 			client_id
+// 		};
+// 		const response = await axiosInstance.post('/inspections/get_maintenance_type', requestBody);
+// 		await saveData(seed, response.data)
+// 		return response.data;
+// 	} catch (error) {
+// 		throw new Error('Erro ao resgatar pergunta');
+// 	}
+// };
+
+export const get_maintenance = async (system_type_id: number, client_id: number) => {
+
 	try {
 		const requestBody = {
 			system_type_id,
 			client_id
-		};
-		const response = await axiosInstance.post('/inspections/get_maintenance_type', requestBody);
-		await saveData(seed, response.data)
-		return response.data;
-	} catch (error) {
-		throw new Error('Erro ao resgatar pergunta');
-	}
-};
-
-export const get_maintenance = async (system_id: number) => {
-
-	try {
-		const requestBody = {
-			system_id,
 		};
 		const response = await axiosInstance.post('/inspections/get_maintenance', requestBody);
 		return response.data;
@@ -349,7 +354,8 @@ async function sincronizar() {
 					payload.observation,
 					payload.action,
 					payload.imageUri,
-					payload.inspection_id
+					payload.inspection_id,
+					payload.sys_app_maintenances_id
 				);
 				dataPut.data = dataPut.data.filter((i: any) => payload.imageUri != i.imageUri)
 
