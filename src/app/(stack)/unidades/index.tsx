@@ -18,6 +18,7 @@ import jwt from "@/services/jwt";
 import { Link } from "expo-router";
 import { setInspectionName } from "@/components/CurrentInspection";
 import BackgroundLayout from "@/components/BackgroundLayout";
+import ConfirmableButton from "@/components/ConfirmableButton";
 
 const defaultImage = {
 	uri: "https://safetylist.safety2u.com.br/public/images/unidades/default.jpg",
@@ -44,6 +45,7 @@ const DropdownComponent = () => {
 					}))
 				);
 			});
+
 		})();
 	}, []);
 
@@ -76,7 +78,6 @@ const DropdownComponent = () => {
 		}
 		return null;
 	};
-
 	return (
 		<BackgroundLayout>
 			<View style={styles.card}>
@@ -132,7 +133,17 @@ const DropdownComponent = () => {
 					<Button texto="Prosseguir" line={16} marginTop={16}>
 						<MaterialIcons name="navigate-next" size={16} color="white" />
 					</Button>
+
 				)}
+				{/* <ConfirmableButton
+					buttonText="Clique Aqui"
+					onConfirm={() => {
+						console.log("Ação Confirmada!");
+						// Coloque aqui a lógica que deve ser executada após a confirmação
+					}}
+				// Outras propriedades do Button podem ser passadas aqui
+				/> */}
+
 				<StatusBar style="dark" />
 			</View>
 		</BackgroundLayout>

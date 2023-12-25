@@ -11,25 +11,48 @@ export const styleHeaderInspectionName = StyleSheet.create({
     color: "#ccc",
     textAlign: "center",
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 24,
   },
 });
 
+// export function setInspectionName(name: string) {
+//   AsyncStorage.removeItem("CurrentNamePage").then(() => {
+//     AsyncStorage.setItem("CurrentNamePage", name);
+//   });
+// }
+
+// export default function () {
+//   const [name, setName] = useState("");
+
+//   useEffect(() => {
+//     (async () => {
+//       let InspectionName =
+//         (await AsyncStorage.getItem("CurrentNamePage")) || "";
+//       setName(InspectionName);
+//     })();
+//   }, []);
+
 export function setInspectionName(name: string) {
-  AsyncStorage.removeItem("CurrentNamePage").then(() => {
-    AsyncStorage.setItem("CurrentNamePage", name);
-  });
+  AsyncStorage.setItem("CurrentNamePage", name)
+    .catch(error => console.error("Erro ao atualizar o nome da Inspeção", error));
 }
 
-export default function () {
+export default function CurrentInspection() {
   const [name, setName] = useState("");
 
   useEffect(() => {
-    (async () => {
-      let InspectionName =
-        (await AsyncStorage.getItem("CurrentNamePage")) || "";
-      setName(InspectionName);
-    })();
+    const fetchInspectionName = async () => {
+      try {
+        const inspectionName = await AsyncStorage.getItem("CurrentNamePage");
+        if (inspectionName) {
+          setName(inspectionName);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar o nome da Inspeção", error);
+      }
+    };
+
+    fetchInspectionName();
   }, []);
 
   return (

@@ -19,14 +19,16 @@ import CardTarefas from "@/components/CardTarefas";
 
 import Button from "components/Button";
 import { StatusBar } from "expo-status-bar";
-import HeaderTitle from "@/components/HeaderTitle";
 import HeaderTitlePages from "@/components/HeaderTitlePages";
 import CurrentCompany from "@/components/CurrentInspection";
 import BackgroundLayout from "@/components/BackgroundLayout";
+import CurrentInspection from "@/components/CurrentInspection";
+import CurrentSetores from "@/components/CurrentSetores";
 
 const tarefas = () => {
   const local = useLocalSearchParams();
   const [lista, setLista] = useState([]);
+  const [ValidButton, setValidButton] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const loadData = async () => {
@@ -36,7 +38,8 @@ const tarefas = () => {
         local.inspection_id,
         local.client_id
       );
-      setLista(res.payload);
+      setLista(res.payload.inspecTables);
+      setValidButton(res.payload.allClosed);
     } catch (error) {
       console.error("Erro ao carregar a lista de tarefas:", error);
     }
@@ -54,7 +57,7 @@ const tarefas = () => {
   );
 
   async function alterStatus() {
-    if (lista.every((m) => m.is_closed == 1)) {
+    if (ValidButton) {
       await alterStatusInspectionById(local.user_id, local.inspection_id, 3);
       router.push({ pathname: "/(stack)/inspections/" + local.inspection_id });
     }
@@ -68,7 +71,8 @@ const tarefas = () => {
   ) : (
     <BackgroundLayout>
       <ScrollView>
-        <CurrentCompany />
+        <CurrentInspection />
+        <CurrentSetores />
         <HeaderTitlePages title="Sistemas" />
         <CardTarefas style={style} lista={lista} />
         <View>
@@ -86,7 +90,7 @@ const tarefas = () => {
                 texto="Finalizar Tarefas"
                 cor="#16be2e"
                 line={20}
-                active={lista.every((m) => m.is_closed == 1)}
+                active={ValidButton}
               >
                 <AntDesign name="checkcircleo" size={16} color="white" />
               </Button>

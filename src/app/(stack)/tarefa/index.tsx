@@ -32,6 +32,8 @@ import CurrentCompany from "@/components/CurrentInspection";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import BackgroundLayout from "@/components/BackgroundLayout";
 import CurrentType from "@/components/CurrentType";
+import CurrentInspection from "@/components/CurrentInspection";
+import CurrentSetores from "@/components/CurrentSetores";
 
 const App = ({ ...params }: any) => {
   const [lista, setLista] = useState([]);
@@ -100,8 +102,8 @@ const App = ({ ...params }: any) => {
   ) : (
     <BackgroundLayout>
       <View style={{ flex: 1 }}>
-        <CurrentCompany />
-
+        <CurrentInspection />
+        <CurrentSetores />
         <KeyboardAwareScrollView extraScrollHeight={100}>
           <CurrentType />
           {lista.length === 0 ? (

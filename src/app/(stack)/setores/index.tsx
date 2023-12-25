@@ -3,7 +3,6 @@ import {
   View,
   Text,
   ScrollView,
-  ImageBackground,
 } from "react-native";
 import Button from "../../../components/Button";
 import Card from "../../../components/Card";
@@ -16,14 +15,15 @@ import {
 import { useEffect, useState, useCallback } from "react";
 import {
   alterStatusInspectionById,
-  getInspectionsByClient,
   getSectorsByIdInspection,
 } from "services/api";
 import { Link } from "expo-router";
-import { setInspectionName } from "@/components/CurrentInspection";
+
 import BackgroundLayout from "@/components/BackgroundLayout";
 import HeaderTitlePages from "@/components/HeaderTitlePages";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import CurrentInspection from "@/components/CurrentInspection";
+import { setSetoresName } from "@/components/CurrentSetores";
 
 function formData(data: String) {
   let formatada = data?.substr(0, 10).split("-").reverse().join("/");
@@ -56,12 +56,13 @@ const setores = () => {
   useFocusEffect(
     useCallback(() => {
       loadData();
-      console.log(id);
+      //console.log(id);
     }, [id])
   );
 
   return (
     <BackgroundLayout>
+      <CurrentInspection />
       <HeaderTitlePages title="Setores" />
       <ScrollView>
         {lista.length !== 0 &&
@@ -73,9 +74,8 @@ const setores = () => {
                 </View>
                 <Link
                   href={{
-                    pathname: `/(stack)/${
-                      e.is_closed === 0 ? "tarefas" : "setores"
-                    }/`,
+                    pathname: `/(stack)/${e.is_closed === 0 ? "tarefas" : "setores"
+                      }/`,
                     params: {
                       client_id: local.client_id,
                       inspection_id: local.inspection_id,
@@ -87,15 +87,14 @@ const setores = () => {
                       user_id: local.user_id,
                     },
                   }}
-                  onPress={() => setInspectionName(e.fullSectorName)}
+                  // onPress={() => setInspectionName(e.fullSectorName)}
                   asChild
                 >
                   <Button
                     texto="Inspecionar"
                     active={e.is_closed === 0 ? true : false}
-                    // onPress={() => {
-                    //   alterStatus(e.user_id, e.inspection_id, e.status_inspection);
-                    // }}
+                    onPress={() => setSetoresName(e.fullSectorName)}
+                    asChild
                   />
                 </Link>
               </Card>
