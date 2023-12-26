@@ -44,7 +44,6 @@ const tarefas = () => {
           local.sector_area_pavement_id,
           local.inspection_id
         );
-        router.push({ pathname: "/(stack)/setores/" });
       }
     } catch (error) {
       console.error("Erro ao carregar a lista de tarefas:", error);

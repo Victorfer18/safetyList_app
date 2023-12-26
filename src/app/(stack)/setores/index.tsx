@@ -47,12 +47,10 @@ const setores = () => {
       console.log("Carregando...");
     }
   };
-  useFocusEffect(
-    useCallback(() => {
-      loadData();
-      //console.log(id);
-    }, [id])
-  );
+  useFocusEffect(() => {
+    loadData();
+  });
+
   async function alterStatus() {
     if (ValidButton) {
       await alterStatusInspectionById(local.user_id, local.inspection_id, 3);
