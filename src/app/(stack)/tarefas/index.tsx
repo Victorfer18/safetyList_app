@@ -28,7 +28,6 @@ import CurrentSetores from "@/components/CurrentSetores";
 const tarefas = () => {
   const local = useLocalSearchParams();
   const [lista, setLista] = useState([]);
-  const [ValidButton, setValidButton] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const loadData = async () => {

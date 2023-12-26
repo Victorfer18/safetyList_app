@@ -57,7 +57,7 @@ const App = ({ ...params }: any) => {
       );
 
       setLista(res.payload.maintenances);
-      setValidButton(!res.payload.allClosed);
+      setValidButton(res.payload.allClosed);
       setResposta(res.payload.maintenances);
       setIsLoading(false);
     })();
