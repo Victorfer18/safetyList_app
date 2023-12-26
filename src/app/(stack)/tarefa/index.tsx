@@ -39,6 +39,7 @@ const App = ({ ...params }: any) => {
   const [showMessage, setShowMessage] = useState(false);
   const [messageText, setMessageText] = useState("");
   const [messageType, setMessageType] = useState("error");
+  const [ValidButton, setValidButton] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -57,14 +58,14 @@ const App = ({ ...params }: any) => {
       );
 
       setLista(res.payload.maintenances);
-
+      setValidButton(res.payload.allClosed);
       setResposta(res.payload.maintenances);
       setIsLoading(false);
     })();
   }, []);
 
   function final() {
-    if (lista.every((e) => e?.file_url)) {
+    if (ValidButton) {
       Alert.alert(
         "Tarefa Completa",
         "Tarefas finalizadas com sucesso!",
@@ -124,11 +125,11 @@ const App = ({ ...params }: any) => {
                   cor="#16be2e"
                   line={20}
                   onPress={() => {
-                    if (lista.every((e) => e?.file_url)) {
+                    if (ValidButton) {
                       final();
                     }
                   }}
-                  active={lista.every((e) => e?.file_url)}
+                  active={ValidButton}
                 >
                   <AntDesign name="checkcircleo" size={16} color="white" />
                 </Button>
