@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export const styleHeaderSetoresName = StyleSheet.create({
   box: {
     backgroundColor: "rgba(0, 0, 0, 0.3)",
-    padding: 16,
+    padding: 8,
   },
   text: {
     color: "#ccc",

@@ -5,7 +5,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export const styleHeaderInspectionName = StyleSheet.create({
   box: {
     backgroundColor: "rgba(0, 0, 0, 0.3)",
-    padding: 16,
+    padding: 8,
   },
   text: {
     color: "#ccc",
@@ -14,23 +14,6 @@ export const styleHeaderInspectionName = StyleSheet.create({
     fontSize: 24,
   },
 });
-
-// export function setInspectionName(name: string) {
-//   AsyncStorage.removeItem("CurrentNamePage").then(() => {
-//     AsyncStorage.setItem("CurrentNamePage", name);
-//   });
-// }
-
-// export default function () {
-//   const [name, setName] = useState("");
-
-//   useEffect(() => {
-//     (async () => {
-//       let InspectionName =
-//         (await AsyncStorage.getItem("CurrentNamePage")) || "";
-//       setName(InspectionName);
-//     })();
-//   }, []);
 
 export function setInspectionName(name: string) {
   AsyncStorage.setItem("CurrentNamePage", name)

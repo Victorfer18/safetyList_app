@@ -135,16 +135,6 @@ const DropdownComponent = () => {
 					</Button>
 
 				)}
-				<ConfirmableButton
-					buttonText="Teste Modal"
-					onConfirm={() => { /* Lógica de confirmação */ }}
-					modalProps={{
-						title: "Confirmação de Deleção",
-						message: "Declaro que efetuei a conferência nos dados captados neste Check list, com a ciência que as informações aqui descritas refletem exatamente as condições reais inspecionadas e são de minha inteira responsabilidade.",
-						confirmText: "Confirmar",
-						cancelText: "Cancelar"
-					}}
-				/>
 
 				<StatusBar style="dark" />
 			</View>
