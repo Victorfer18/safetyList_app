@@ -78,8 +78,22 @@ const App = ({ ...params }: any) => {
               //   local.system_type_id
               // );
               router.push({
-                pathname: `/(stack)/tarefas/`,
+                pathname: "/(stack)/tarefas/",
+                params: {
+                  client_id: local.client_parent,
+                  inspection_id: local.inspection_id,
+                  sector_area_pavement_id: local.sector_area_pavement_id,
+                  inspection_name: local.inspection_name,
+                  inspecao: local.inspecao,
+                  status_inspection: local.status_inspection,
+                  user_id: local.user_id,
+                },
               });
+              console.log(
+                local.client_parent,
+                local.inspection_id,
+                local.system_type_id
+              )
             },
           },
         ],
