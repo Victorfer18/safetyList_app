@@ -11,6 +11,7 @@ type ConfirmableButtonProps = {
 const ConfirmableButton = forwardRef(({
     buttonText,
     onConfirm,
+    modalProps,
     ...buttonProps
 }: ConfirmableButtonProps, ref) => {
     const [modalVisible, setModalVisible] = useState(false);
@@ -36,6 +37,7 @@ const ConfirmableButton = forwardRef(({
                 visible={modalVisible}
                 onConfirm={handleConfirm}
                 onCancel={() => setModalVisible(false)}
+                {...modalProps}
             />
         </View>
     );
