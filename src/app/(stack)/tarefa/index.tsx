@@ -40,7 +40,6 @@ const App = ({ ...params }: any) => {
   const [messageText, setMessageText] = useState("");
   const [messageType, setMessageType] = useState("error");
   const [ValidButton, setValidButton] = useState(false);
-
   const [isLoading, setIsLoading] = useState(false);
 
   const local = useLocalSearchParams();
