@@ -39,7 +39,7 @@ const tarefas = () => {
         local.client_id
       );
       setLista(res.payload.inspecTables);
-      if (!res.payload.allClosed) {
+      if (res.payload.allClosed) {
         await saveSectorIsClosed(
           local.sector_area_pavement_id,
           local.inspection_id
