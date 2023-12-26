@@ -1,14 +1,10 @@
-import {
-  StyleSheet,
-  View,
-  Text,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 import Button from "../../../components/Button";
 import Card from "../../../components/Card";
 import { StatusBar } from "expo-status-bar";
 import {
   useSearchParams,
+  router,
   useFocusEffect,
   useLocalSearchParams,
 } from "expo-router";
@@ -24,28 +20,26 @@ import HeaderTitlePages from "@/components/HeaderTitlePages";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CurrentInspection from "@/components/CurrentInspection";
 import { setSetoresName } from "@/components/CurrentSetores";
+import { AntDesign } from "@expo/vector-icons";
+import ConfirmableButton from "components/ConfirmableButton";
 
 function formData(data: String) {
   let formatada = data?.substr(0, 10).split("-").reverse().join("/");
   return formatada == "00/00/0000" ? " - " : formatada;
 }
 
-function alterStatus(user_id, inspection_id, status_inspection) {
-  if (status_inspection == 1) {
-    alterStatusInspectionById(user_id, inspection_id, 2);
-  }
-}
-
 const setores = () => {
   const local = useLocalSearchParams();
   const [lista, setLista] = useState([]);
   const [name, setName] = useState("");
+  const [ValidButton, setValidButton] = useState(false);
   const id = local.inspection_id;
   const loadData = async () => {
     if (id) {
       try {
         const res = await getSectorsByIdInspection(id);
         setLista(res.payload);
+        setValidButton(res.payload.allClosed);
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
       }
@@ -59,6 +53,12 @@ const setores = () => {
       //console.log(id);
     }, [id])
   );
+  async function alterStatus() {
+    if (ValidButton) {
+      await alterStatusInspectionById(local.user_id, local.inspection_id, 3);
+      router.push({ pathname: "/(stack)/inspections/" + local.inspection_id });
+    }
+  }
 
   return (
     <BackgroundLayout>
@@ -74,8 +74,9 @@ const setores = () => {
                 </View>
                 <Link
                   href={{
-                    pathname: `/(stack)/${e.is_closed === 0 ? "tarefas" : "setores"
-                      }/`,
+                    pathname: `/(stack)/${
+                      e.is_closed === 0 ? "tarefas" : "setores"
+                    }/`,
                     params: {
                       client_id: local.client_id,
                       inspection_id: local.inspection_id,
@@ -106,6 +107,21 @@ const setores = () => {
               </Text>
             </View>
           ))}
+        <View style={style.boxSpacefinish}>
+          <ConfirmableButton
+            buttonText="Finalizar Setores"
+            onConfirm={() => alterStatus}
+            color="#16be2e"
+            active={ValidButton}
+            modalProps={{
+              title: "Confirmação de Finalização",
+              message:
+                "Declaro que efetuei a conferência nos dados captados neste Check list, com a ciência que as informações aqui descritas refletem exatamente as condições reais inspecionadas e são de minha inteira responsabilidade.",
+              confirmText: "Confirmar",
+              cancelText: "Cancelar",
+            }}
+          />
+        </View>
       </ScrollView>
       <StatusBar style="dark" />
     </BackgroundLayout>
@@ -118,6 +134,9 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
+  },
+  boxSpacefinish: {
+    margin: 18,
   },
   image: {
     flex: 1,

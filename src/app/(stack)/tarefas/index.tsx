@@ -12,7 +12,7 @@ import { useEffect, useState, useCallback } from "react";
 import {
   getInspectableList,
   saveInspectableIsClosed,
-  alterStatusInspectionById,
+  saveSectorIsClosed,
 } from "services/api";
 import { router, useLocalSearchParams, useFocusEffect } from "expo-router";
 import CardTarefas from "@/components/CardTarefas";
@@ -39,7 +39,13 @@ const tarefas = () => {
         local.client_id
       );
       setLista(res.payload.inspecTables);
-      setValidButton(res.payload.allClosed);
+      if (!res.payload.allClosed) {
+        await saveSectorIsClosed(
+          local.sector_area_pavement_id,
+          local.inspection_id
+        );
+        router.push({ pathname: "/(stack)/setores/" });
+      }
     } catch (error) {
       console.error("Erro ao carregar a lista de tarefas:", error);
     }
@@ -55,13 +61,6 @@ const tarefas = () => {
       loadData();
     }, [local.inspection_id, local.client_id])
   );
-
-  async function alterStatus() {
-    if (ValidButton) {
-      await alterStatusInspectionById(local.user_id, local.inspection_id, 3);
-      router.push({ pathname: "/(stack)/inspections/" + local.inspection_id });
-    }
-  }
 
   return isLoading ? (
     <View style={style.loadingContainer}>
@@ -81,19 +80,6 @@ const tarefas = () => {
               <Text style={style.msgTarefas}>
                 Não há tarefas a serem realizadas para essa inspeção!
               </Text>
-            </View>
-          )}
-          {lista.length > 0 && (
-            <View style={style.boxSpacefinish}>
-              <Button
-                onPress={alterStatus}
-                texto="Finalizar Tarefas"
-                cor="#16be2e"
-                line={20}
-                active={ValidButton}
-              >
-                <AntDesign name="checkcircleo" size={16} color="white" />
-              </Button>
             </View>
           )}
         </View>
