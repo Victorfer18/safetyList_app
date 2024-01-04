@@ -242,14 +242,14 @@ export const alterStatusInspectionById = async (
   }
 };
 
-export const getClientsById = async (clientId: number) => {
+export const getClientsById = async () => {
   await setAuthToken();
-  let seed = { fn: "getClientsById", clientId };
+  let seed = { fn: "getClientsById" };
   if (await isOff()) {
     return await loadData(seed);
   }
   try {
-    const response = await axiosInstance.get(`/clients/${clientId}`);
+    const response = await axiosInstance.get(`/clients`);
     await saveData(seed, response.data);
     return response.data;
   } catch (error) {
