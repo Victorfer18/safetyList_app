@@ -22,7 +22,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.maxtecnology.safetylist_app"
     },
     "web": {
       "favicon": "./assets/favicon.png",
@@ -39,6 +44,11 @@
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "239aa7ab-44fd-44ca-9011-621df9667f45"
+      }
+    }
   }
 }
