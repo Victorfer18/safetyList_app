@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Image, ImageBackground, StyleSheet, Text, View, TouchableOpacity, Alert, TextInput } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import CustomInput from '@/components/CustomInput';
-import MessageDisplay from '@/components/feedBack';
+import CustomInput from '../../../components/CustomInput';
+import MessageDisplay from '../../../components/feedBack';
 import { AntDesign } from '@expo/vector-icons';
-import { login } from 'services/api';
-import Button from '@/components/Button';
+import { login } from '../../../services/api';
+import Button from '../../../components/Button';
 import { router } from 'expo-router';
 import NetInfo from '@react-native-community/netinfo';
 

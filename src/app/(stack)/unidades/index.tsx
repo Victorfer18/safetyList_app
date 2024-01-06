@@ -12,19 +12,20 @@ import {
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { getClientsById } from "services/api";
-import Button from "components/Button";
+import Button from "../../../components/Button";
 import { Entypo, MaterialIcons } from "@expo/vector-icons";
-import jwt from "@/services/jwt";
+import jwt from "../../../services/jwt";
 import { Link } from "expo-router";
-import { setInspectionName } from "@/components/CurrentInspection";
-import BackgroundLayout from "@/components/BackgroundLayout";
-import ConfirmableButton from "@/components/ConfirmableButton";
+import { setInspectionName } from "../../../components/CurrentInspection";
+import BackgroundLayout from "../../../components/BackgroundLayout";
+import ConfirmableButton from "../../../components/ConfirmableButton";
+import defaultLocalImage from '../../../assets/images/unidades/default.png';
 
-const defaultImage = {
-	uri: "https://safetylist.safety2u.com.br/public/images/unidades/default.jpg",
-};
+const defaultImage = defaultLocalImage;
 
-// const image = 'assets/images/login/background.png';
+// const defaultImage = {
+// 	uri: "https://safetylist.safety2u.com.br/public/images/unidades/default.jpg",
+// };
 
 const DropdownComponent = () => {
 	const [value, setValue] = useState(null);
