@@ -1,14 +1,23 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Image, ImageBackground, StyleSheet, Text, View, TouchableOpacity, Alert, TextInput } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import CustomInput from '../../../components/CustomInput';
-import MessageDisplay from '../../../components/feedBack';
-import { AntDesign } from '@expo/vector-icons';
-import { login } from '../../../services/api';
-import Button from '../../../components/Button';
-import { router } from 'expo-router';
-import NetInfo from '@react-native-community/netinfo';
+import React, { useState, useEffect, useRef } from "react";
+import {
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Alert,
+  TextInput,
+} from "react-native";
+import { StatusBar } from "expo-status-bar";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import CustomInput from "../../../components/CustomInput";
+import MessageDisplay from "../../../components/feedBack";
+import { AntDesign } from "@expo/vector-icons";
+import { login, sincronizar } from "../../../services/api";
+import Button from "../../../components/Button";
+import { router } from "expo-router";
+import NetInfo from "@react-native-community/netinfo";
 
 const image = "assets/images/login/background.jpg";
 const logoImage1 = "assets/images/logo/safety-list.png";
@@ -72,6 +81,7 @@ const App = () => {
 
     try {
       const response = await login(username, password);
+      await sincronizar();
       if (response.success && response.payload) {
         await AsyncStorage.setItem("userToken", response.payload);
         router.push({ pathname: "/(stack)/unidades" });

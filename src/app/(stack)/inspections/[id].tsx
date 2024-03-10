@@ -13,6 +13,7 @@ import { useEffect, useState, useCallback } from "react";
 import {
   alterStatusInspectionById,
   getInspectionsByClient,
+  sincronizar,
 } from "../../../services/api";
 import { Link } from "expo-router";
 import { setInspectionName } from "../../..//components/CurrentInspection";
@@ -33,6 +34,7 @@ const inspections = () => {
     if (id) {
       try {
         const res = await getInspectionsByClient(id);
+        await sincronizar();
         setLista(res.payload);
       } catch (error) {
         console.error("Erro ao carregar dados:", error);

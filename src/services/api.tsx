@@ -164,9 +164,11 @@ export const register_maintenance = async (
 
   if (await isOff()) {
     let dataPut = await loadData({ list: true });
-    if (dataPut?.data) {
+
+    if (!dataPut.data) {
       dataPut.data = [];
     }
+
     dataPut.data.push({
       system_type_id,
       maintenance_type_id,
@@ -181,6 +183,7 @@ export const register_maintenance = async (
     });
 
     await saveData({ list: true }, dataPut);
+    return { message: "Salvo offline" };
   }
 
   try {
@@ -226,6 +229,22 @@ export const alterStatusInspectionById = async (
   status: any
 ) => {
   await setAuthToken();
+
+  if (await isOff()) {
+    let dataPut = await loadData({ list: true });
+    if (!dataPut?.alterStatusInspectionById) {
+      dataPut.alterStatusInspectionById = [];
+    }
+    dataPut.alterStatusInspectionById.push({
+      user_id,
+      inspectionId,
+      status,
+    });
+    await saveData({ list: true }, dataPut);
+
+    return { message: "Salvo offline" };
+  }
+
   try {
     const requestBody = {
       user_id: user_id,
@@ -303,7 +322,6 @@ const getErrorMessage = async (error) => {
         return "Erro interno do servidor.";
       default:
         return error.response.data.message;
-
     }
   } else if (error.request) {
     return "Não foi possível obter uma resposta do servidor.";
@@ -350,16 +368,16 @@ const loadData = async (seed: any) => {
   try {
     const value = await AsyncStorage.getItem("$" + salt);
     if (value !== null) {
-      return value;
+      return JSON.parse(value as string);
     }
   } catch (e) {
     return {};
   }
   return {};
 };
-async function sincronizar() {
+export async function sincronizar() {
+  let dataPut = await loadData({ list: true });
   if (!(await isOff())) {
-    let dataPut = await loadData({ list: true });
     dataPut?.data?.forEach(async (payload: any) => {
       try {
         await register_maintenance(
@@ -377,9 +395,25 @@ async function sincronizar() {
         dataPut.data = dataPut.data.filter(
           (i: any) => payload.imageUri != i.imageUri
         );
-      } catch (error) { }
+      } catch (error) {}
       await saveData({ list: true }, dataPut);
     });
+    dataPut?.alterStatusInspectionById?.forEach(async (payload: any) => {
+      try {
+        await alterStatusInspectionById(
+          payload.user_id,
+          payload.inspectionId,
+          payload.status
+        );
+        dataPut.alterStatusInspectionById =
+          dataPut.alterStatusInspectionById.filter(
+            (i: any) => payload.inspectionId != i.inspectionId
+          );
+      } catch (error) {}
+      await saveData({ list: true }, dataPut);
+    });
+    dataPut.data = [];
+    dataPut.alterStatusInspectionById = [];
   }
 }
-sincronizar();
+// sincronizar();

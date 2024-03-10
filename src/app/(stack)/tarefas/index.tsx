@@ -13,6 +13,7 @@ import {
   getInspectableList,
   saveInspectableIsClosed,
   saveSectorIsClosed,
+  sincronizar,
 } from "../../../services/api";
 import { router, useLocalSearchParams, useFocusEffect } from "expo-router";
 import CardTarefas from "../../../components/CardTarefas";
@@ -34,7 +35,6 @@ const tarefas = () => {
   const timestamp = currentDate.getTime();
 
   const loadData = async () => {
-    console.log("Carregando dados...");
     setIsLoading(true);
     try {
       const res = await getInspectableList(
@@ -42,6 +42,7 @@ const tarefas = () => {
         local.client_id,
         local.sector_area_pavement_id
       );
+      await sincronizar();
       setLista(res.payload.inspecTables);
       if (res.payload.allClosed) {
         await saveSectorIsClosed(
@@ -59,7 +60,7 @@ const tarefas = () => {
             status_inspection: parseInt(local.status_inspection),
             inspecao: local.inspecao,
           },
-        })
+        });
       }
     } catch (error) {
       console.error("Erro ao carregar a lista de tarefas:", error);

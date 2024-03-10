@@ -56,7 +56,6 @@ function FormTarefa({ item, index, setCheckButton }: any) {
   }, [local?.photoUri]);
 
   async function saveTarefa(e: any) {
-    console.log("Save Tafarel", e);
     setLoad(true);
     if (
       !photoUri ||
