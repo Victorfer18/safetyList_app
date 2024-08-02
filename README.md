@@ -1,4 +1,4 @@
-# safetyList_app
+# SafetyList App
 
 ## Descrição
 O **APP safetyList** é um aplicativo mobile desenvolvido em React Native que visa auxiliar na realização de inspeções de segurança em prédios. Com ele, é possível criar checklists personalizados, registrar ocorrências, gerar relatórios e muito mais.
@@ -11,3 +11,4 @@ O **APP safetyList** é um aplicativo mobile desenvolvido em React Native que vi
 
 ## Tecnologias Utilizadas
 * **React Native:** Framework para desenvolvimento de aplicativos mobile multiplataforma.
+
