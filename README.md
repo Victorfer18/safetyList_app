@@ -12,3 +12,6 @@ O **APP safetyList** é um aplicativo mobile desenvolvido em React Native que vi
 ## Tecnologias Utilizadas
 * **React Native:** Framework para desenvolvimento de aplicativos mobile multiplataforma.
 
+## Licença
+
+Este projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](./LICENSE) para mais detalhes.
